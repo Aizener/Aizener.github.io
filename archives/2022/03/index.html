@@ -515,10 +515,12 @@
         return;
       }
       if (box.getBoundingClientRect().top < windowHeight) {
-        box.classList.remove('img-loading')
-        box.loadedImage = true;
         const imgDom = box.querySelector('img');
         imgDom.src = imgDom.dataset.cover;
+        imgDom.onload = () => {
+          box.classList.remove('img-loading')
+          box.loadedImage = true;
+        }
       }
     });
   }
