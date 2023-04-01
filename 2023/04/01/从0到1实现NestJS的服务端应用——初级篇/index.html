@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>我的技术与生活——从0到1实现NestJS的服务端应用——初级篇 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="../../../../imgs/shortcut-icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/public.css" />
+  <link rel="stylesheet" href="../../../../css/layout.css" />
+  <link rel="stylesheet" href="../../../../css/iconfont.css" />
+  <link rel="stylesheet" href="../../../../css/APlayer.min.css" />
+  <script src="../../../../js/APlayer.min.js"></script>
+  <script src="../../../../js/jquery.min.js"></script>
+  <script src="../../../../js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `我的技术与生活——从0到1实现NestJS的服务端应用——初级篇`
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://aizener.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="../../../../imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Cola.</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">中二</span>
+          <span class="main-left--tag">宅</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“花有重开日，人无再少年”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Aizener"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>2</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>8</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>5 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>10 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>410天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.2</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">从0到1实现NestJS的服务端应用——初级篇</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="../../../../categories/NodeJS/">NodeJS</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="../../../../tags/JavaScript/" rel="tag">JavaScript</a><a class="tag-link" href="../../../../tags/NestJS/" rel="tag">NestJS</a>
+          </div>
+          
+          <p class="article-info--date">日期：2023-04-01 11:38:00</p>
+        </div>
+        <img src="https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content">
+      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>在前面的介绍中，我们已经懂了<code>nest.js</code>的一个基础应用，并且能使用<code>nest.js</code>连接数据库进行操作。那么，接下来就让我们更进一步的使用<code>nest.js</code>吧。</p>
+<h1 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h1><p>依赖注入是一种将我们需要的实例对象委托给控制反转容器，然后让这个容器提供给我们使用的技术。在<code>nest.js</code>中，这个控制反转的容器就是<code>nest.js</code>本身，也就是我们需要的实例由<code>nest.js</code>来委托提供。</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>实现注入这个功能，通常需要三个步骤。如下：</p>
+<ol>
+<li>首先通过<code>@Injectable()</code>装饰器来声明一个由<code>nest.js</code>容器管理的类，被管理的这个类在<code>nest.js</code>中就是一个<strong>提供者</strong>，如下面代码所示：</li>
+</ol>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Injectable()
+export class GoodsService &#123;
+  getHello() &#123;
+    return &#39;goods hello.&#39;;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>因为通过了<code>@Injectable()</code>装饰器的修饰，所以<code>GoodsService</code>类已经被<code>nest.js</code>容器进行了管理。</p>
+<ol start="2">
+<li>我们怎么来使用<code>nest.js</code>容器中管理的类呢？方法如下：</li>
+</ol>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Controller, Get, Inject &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  constructor(
+    private readonly goodsService: GoodsService,
+  ) &#123;&#125;
+
+  @Get()
+  hello() &#123;
+    return this.goodsService.getHello(),
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当我们在构造函数中声明了参数时，例如以下代码：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">private readonly goodsService: GoodsService,<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>此时，我们定义了一个<code>GoodsService</code>类型的变量，在<code>nest.js</code>中该行为视作向控制反转容器请求注入对应提供者的实例对象。</p>
+<ol start="3">
+<li>那么，当我们向控制反转容器请求注入对应的实例对象时<code>nest.js</code>如何知道提供哪一个呢？这里，就需要在<code>module</code>里面进行提供者的注册，代码如下：</li>
+</ol>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable, Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+@Module(&#123;
+  controllers: [GoodsController],
+  providers: [GoodsService],
+&#125;)
+export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过<code>providers</code>属性，就表示在该模块中注册了一个由<code>nest.js</code>容器管理的提供者<code>GoodsService</code>类。<br>从而当我们在该模块的控制器中访问时，<code>nest.js</code>能给我们正确的注入对应实例对象。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>现在我们已经知道了依赖注入在<code>nest.js</code>中的一个基本流程，现在我们来看看<code>nest.js</code>中给我们提供的几种写法。</p>
+<h3 id="useClass"><a href="#useClass" class="headerlink" title="useClass"></a>useClass</h3><p>在<code>nest.js</code>中注册提供者时，提供了<code>useClass</code>属性来表示需要注册的类，上面的<code>providers: [GoodsService]</code>其实就是该属性的一个缩写，其完整写法应该如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">providers: [
+    &#123;
+      provide: GoodsService,
+      useClass: GoodsService,
+    &#125;
+]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面表示注册了一个<code>GoodsSerivce</code>类，并且指定了该类的实际注入内容，这里也为<code>GoodsSerivce</code>类。  </p>
+<p>好的，我们修改之前的写法重启服务，请求接口发现如下图一样一切正常，这就表示我们的注入是成功。</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/53556ee795d745118b680d2e2abd2b35~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h3 id="useValue"><a href="#useValue" class="headerlink" title="useValue"></a>useValue</h3><p>除了使用<code>useClass</code>注册容器管理的提供类以外，在<code>nest.js</code>中还给我们提供了<code>useValue</code>的方式来提供管理，方法如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable, Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+
+@Module(&#123;
+  controllers: [GoodsController],
+  providers: [
+    &#123;
+      provide: GoodsService,
+      useClass: GoodsService,
+    &#125;,
+    &#123;
+      provide: &#39;GoodsType&#39;,
+      useValue: [&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;],
+    &#125;
+  ],
+&#125;)
+export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面我们通过<code>useValue: [&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;]</code>方式来注册了一个数组对象，里面包含了商品的类型，那么如何使用呢？<br>对于使用<code>useVlaue</code>来注册的自定义提供者，我们需要通过如下方式注入：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Controller, Get, Inject &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  constructor(
+    private readonly goodsService: GoodsService,
+    @Inject(&#39;GoodsType&#39;) private readonly goodsType: string[],
+  ) &#123;&#125;
+
+  @Get()
+  hello() &#123;
+    return &#123;
+      type: this.goodsType,
+      greet: this.goodsService.getHello(),
+    &#125;;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过<code>@Inject(&#39;GoodsType&#39;)</code>的声明后<code>nest.js</code>容器就知道需要给我们注入对应的自定义的<code>GoodsType</code>提供者了，尝试调接口发现返回如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/69a08dd765bb4b97a48372fde09949fc~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>说明我们注册的提供者已经被成功注入了。</p>
+<h3 id="useFactory"><a href="#useFactory" class="headerlink" title="useFactory"></a>useFactory</h3><p>除了以上两种以外注册方式以外，在<code>nest.js</code>中还给我们提供了另一种更为强大的注册方式，那就是<code>useFactory</code>方式。<br>通过<code>useFactory</code>方式注册提供者时，我们还可以在注册过程朱注入并引用其他的提供者来使用，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable, Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+
+@Injectable()
+class MockService &#123;
+  create() &#123;
+    return new GoodsService();
+  &#125;
+&#125;
+
+@Module(&#123;
+  controllers: [GoodsController],
+  providers: [
+    &#123;
+      provide: GoodsService,
+      useClass: GoodsService,
+    &#125;,
+    &#123;
+      provide: &#39;GoodsType&#39;,
+      useValue: [&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;],
+    &#125;,
+    MockService,
+    &#123;
+      provide: &#39;MockGoodsSerivce&#39;,
+      inject: [MockService],
+      useFactory: (mockService: MockService) &#x3D;&gt; mockService.create(),
+    &#125;,
+  ],
+&#125;)
+export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在上面的代码中，我们首先通过定义了一个<code>MockService</code>类，并且使用<code>@Injectable()</code>装饰器标明其为一个提供者并由<code>nest.js</code>来管理。</p>
+<p>然后，我们需要在<code>providers</code>中注册<code>MockService</code>类。当注册完成后，我们就可以通过<code>useFactory</code>的方式来注入并使用了，过程简单如下：</p>
+<ul>
+<li>inject: 需要注入的对象</li>
+<li>useFactory: (mockService: MockService) &#x3D;&gt; mockService.create() &#x2F;&#x2F; 查询<code>inject</code>是否有注入对应的对象并返回实例对象</li>
+</ul>
+<p>完成注册后，我们就可以在其他服务中使用了，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Controller, Get, Inject &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  constructor(
+    private readonly goodsService: GoodsService,
+    @Inject(&#39;GoodsType&#39;) private readonly goodsType: string[],
+    @Inject(&#39;MockGoodsSerivce&#39;) private readonly mockService: GoodsService,
+  ) &#123;&#125;
+
+  @Get()
+  hello() &#123;
+    return &#123;
+      type: this.goodsType,
+      greet: this.goodsService.getHello(),
+      mockGreet: this.mockService.getHello(),
+    &#125;;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>尝试调接口，发现返回如下：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/40fe9203128141358c1006a99c3a44c2~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>这就表明了我们注册的提供者都是成功的。</p>
+<h3 id="Async"><a href="#Async" class="headerlink" title="Async"></a>Async</h3><p>现在，我们来看看另一种常见的场景——异步。<br>在<code>JavaScript</code>编程中，我们很容易遇见请求接口这类的场景，假如当我们需要注册的变量是通过异步请求获取到的，那么我们再看看注入的结果会正确吗？代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable, Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+
+@Injectable()
+class MockService &#123;
+  create() &#123;
+    return new GoodsService();
+  &#125;
+&#125;
+
+@Module(&#123;
+  controllers: [GoodsController],
+  providers: [
+    &#123;
+      provide: GoodsService,
+      useClass: GoodsService,
+    &#125;,
+    &#123;
+      provide: &#39;GoodsType&#39;,
+      useValue: [&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;],
+    &#125;,
+    &#123;
+      provide: &#39;MockGoodsSerivce&#39;,
+      inject: [MockService],
+      useFactory: (mockService: MockService) &#x3D;&gt; mockService.create(),
+    &#125;,
+    &#123;
+      provide: &#39;MockType&#39;,
+      useFactory: () &#x3D;&gt; &#123;
+        let types &#x3D; [];
+        setTimeout(() &#x3D;&gt; &#123;
+          types &#x3D; [&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;];
+        &#125;, 1e3);
+        return types;
+      &#125;,
+    &#125;,
+    MockService,
+  ],
+&#125;)
+export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面我们注册了一个<code>MockType</code>的对象，并且该对象返回一个数组，但是该数组需要通过<code>setTimeout</code>延迟后才能赋值。<br>现在，通过在控制器中注入该对象后来使用，并且尝试调接口发现结果如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Controller, Get, Inject &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  constructor(
+    private readonly goodsService: GoodsService,
+    @Inject(&#39;GoodsType&#39;) private readonly goodsType: string[],
+    @Inject(&#39;MockGoodsSerivce&#39;) private readonly mockService: GoodsService,
+    @Inject(&#39;MockType&#39;) private readonly mockType: string[],
+  ) &#123;&#125;
+
+  @Get()
+  hello() &#123;
+    return &#123;
+      type: this.goodsType,
+      mockType: this.mockType,
+      greet: this.goodsService.getHello(),
+      mockGreet: this.mockService.getHello(),
+    &#125;;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a3868f6542844514a6e31ed8b958f7d8~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以看到，我们通过异步赋值的结果并没有成功注入到程序中来。那么该怎么解决呢？在<code>nest.js</code>中给我们提供了一个十分简单的方案，只需要简单改造注册时的代码即可，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#123;
+  provide: &#39;MockType&#39;,
+  useFactory: async () &#x3D;&gt; &#123;
+    const types &#x3D; await new Promise((resolve) &#x3D;&gt;
+      setTimeout(() &#x3D;&gt; &#123;
+        resolve([&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;]);
+      &#125;, 1e3),
+    );
+    return types;
+  &#125;,
+&#125;,<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过<code>async/await</code>的方式，我们就可以将异步获取的值成功注册，再次调接口，返回如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/890b9f18ae974ea4a45f43f448bebbba~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>结果表明我们注册通过异步获取的值是一切正常的。</p>
+<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>在开发中，我们通常会以环境变量的方式定义一些配置文件来代替一些硬编码的配置方式。  </p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>在<code>node.js</code>中我们可以通过配置<code>.env</code>文件来定义环境变量，例如我下面在根目录新建了<code>.env</code>文件，并写入如下内容：</p>
+<pre class="line-numbers language-none"><code class="language-none">TITLE&#x3D;DEMO<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在<code>nest.js</code>如果想方便的访问<code>.env</code>文件内容，首先得输入命令安装一个配置库：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm install @nestjs&#x2F;config<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>安装完成后，进入<code>goods.module</code>中，引入并使用该模块：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable, Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; ConfigModule &#125; from &#39;@nestjs&#x2F;config&#39;;
+import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+
+@Injectable()
+class MockService &#123;
+  create() &#123;
+    return new GoodsService();
+  &#125;
+&#125;
+
+@Module(&#123;
+  imports: [ConfigModule.forRoot()],
+  controllers: [GoodsController],
+  providers: [
+    &#123;
+      provide: GoodsService,
+      useClass: GoodsService,
+    &#125;,
+    &#123;
+      provide: &#39;GoodsType&#39;,
+      useValue: [&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;],
+    &#125;,
+    &#123;
+      provide: &#39;MockGoodsSerivce&#39;,
+      inject: [MockService],
+      useFactory: (mockService: MockService) &#x3D;&gt; mockService.create(),
+    &#125;,
+    &#123;
+      provide: &#39;MockType&#39;,
+      useFactory: async () &#x3D;&gt; &#123;
+        const types &#x3D; await new Promise((resolve) &#x3D;&gt;
+          setTimeout(() &#x3D;&gt; &#123;
+            resolve([&#39;食品&#39;, &#39;家居&#39;, &#39;玩具&#39;]);
+          &#125;, 1e3),
+        );
+        return types;
+      &#125;,
+    &#125;,
+    &#123;
+      provide: &#39;ENV&#39;,
+      useValue: &#123;
+        title: process.env.TITLE,
+      &#125;,
+    &#125;,
+    MockService,
+  ],
+&#125;)
+export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里，我们自注册了一个自定义的<code>ENV</code>对象，并且该对象值为环境变量中的<code>TITLE</code>，现在通过在控制器中注入该对象，并返回：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Controller, Get, Inject &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  constructor(
+    private readonly goodsService: GoodsService,
+    @Inject(&#39;GoodsType&#39;) private readonly goodsType: string[],
+    @Inject(&#39;MockGoodsSerivce&#39;) private readonly mockService: GoodsService,
+    @Inject(&#39;MockType&#39;) private readonly mockType: string[],
+    @Inject(&#39;ENV&#39;) private readonly env: Record&lt;string, string&gt;,
+  ) &#123;&#125;
+
+  @Get()
+  hello() &#123;
+    return &#123;
+      type: this.goodsType,
+      mockType: this.mockType,
+      greet: this.goodsService.getHello(),
+      mockGreet: this.mockService.getHello(),
+      env: this.env,
+    &#125;;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>尝试调接口，发现结果如下：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f3bf3f3f767c4c64aea4abdb1071bb9a~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>发现成功获取到了环境变量，说明我们的配置是成功的。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>通过使用<code>@hapi/joi</code>库，我们可以对需要配置的环境变量进行一个验证，保证环境变量配置的符合预期。  </p>
+<p>打开终端，输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm install --save @hapi&#x2F;joi
+npm install --save-dev @types&#x2F;hapi__joi<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>安装好以后，对<code>ConfirgModule</code>进行如下配置：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">imports: [
+    ConfigModule.forRoot(&#123;
+      validationSchema: Joi.object(&#123;
+        TITLE: Joi.number(),
+      &#125;),
+    &#125;),
+]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们通过<code>validationSchema</code>搭配<code>Joi.object</code>的方式对需要的环境变量做了一个限制。<br>这里，我定义了<code>TITLE</code>必须为<code>number</code>类型，但我们现在的<code>TITLE</code>是<code>DEMO</code>字符串，所以编译时报错了，如下：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d27b2476c80041ddb73fcc765c52dff2~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>当把<code>TITLE: Joi.number()</code>改为<code>TITLE: Joi.string()</code>后再次恢复正常。</p>
+<h3 id="ConfigService"><a href="#ConfigService" class="headerlink" title="ConfigService"></a>ConfigService</h3><p>在<code>nest.js</code>的<code>ConfigModule</code>中还给我们提供了一个<code>ConfigSerivce</code>服务类，通过该类也可以获取到配置的环境变量值，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; app.module.ts
+&#x2F;&#x2F; 将ConfigModule改到app.module里面来引入
+import * as Joi from &#39;@hapi&#x2F;joi&#39;;
+import &#123; ConfigModule &#125; from &#39;@nestjs&#x2F;config&#39;;
+
+imports: [
+    ConfigModule.forRoot(&#123;
+      validationSchema: Joi.object(&#123;
+        TITLE: Joi.string(),
+      &#125;),
+    &#125;),
+    GoodsModule,
+]
+
+&#x2F;&#x2F; goods.module.ts
+import &#123; ConfigModule &#125; from &#39;@nestjs&#x2F;config&#39;;
+
+imports: [ConfigModule], &#x2F;&#x2F; 改为引入ConfigModule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过上面两步修改后，我们就可以在<code>goods</code>模块中使用<code>ConfigService</code>文件了，例如：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Controller, Get, Inject &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; ConfigService &#125; from &#39;@nestjs&#x2F;config&#x2F;dist&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  constructor(
+    private readonly goodsService: GoodsService,
+    private readonly configService: ConfigService,
+    @Inject(&#39;GoodsType&#39;) private readonly goodsType: string[],
+    @Inject(&#39;MockGoodsSerivce&#39;) private readonly mockService: GoodsService,
+    @Inject(&#39;MockType&#39;) private readonly mockType: string[],
+    &#x2F;&#x2F; @Inject(&#39;ENV&#39;) private readonly env: Record&lt;string, string&gt;,
+  ) &#123;&#125;
+
+  @Get()
+  hello() &#123;
+    return &#123;
+      type: this.goodsType,
+      mockType: this.mockType,
+      greet: this.goodsService.getHello(),
+      mockGreet: this.mockService.getHello(),
+      env: this.configService.get(&#39;TITLE&#39;), &#x2F;&#x2F; 通过ConfigService类来获取而不是注入env变量
+    &#125;;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>尝试调接口，再看返回如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7da8d398be824acea004cd0d46a6ab83~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>这说明了我们引入的<code>ConfigService</code>运行一切正常。</p>
+<h1 id="过滤器——Filter"><a href="#过滤器——Filter" class="headerlink" title="过滤器——Filter"></a>过滤器——Filter</h1><p>在<code>nest.js</code>中为我们内置了异常处理的过滤器，我们通过重新实现过滤器可以对异常进行一个友好的返回。  </p>
+<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><p>打开终端，输入以下命令，创建一个过滤器文件：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g filter common&#x2F;filters&#x2F;http-filter --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>执行完成上面命令后，会发现在<code>src/common</code>目录下生成了一个<code>http-filter.filter.ts</code>文件，打开文件发现内容如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Catch()
+export class HttpFilterFilter&lt;T&gt; implements ExceptionFilter
+&#123;
+  catch(exception: T, host: ArgumentsHost) &#123;&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面代码主要有两点：</p>
+<ul>
+<li>通过<code>@Catch()</code>装饰器声明；</li>
+<li>实现<code>ExceptionFilter</code>接口的<code>catch</code>方法。</li>
+</ul>
+<p>现在我们需要通过捕获<code>HTPP</code>的异常，以此来重新返回一个比较友好的数据，所以对该文件代码进行一个重新编写，最终代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Request, Response &#125; from &#39;express&#39;;
+
+@Catch(HttpException)
+export class HttpFilterFilter&lt;T extends HttpException&gt;
+  implements ExceptionFilter
+&#123;
+  catch(exception: T, host: ArgumentsHost) &#123;
+    const http &#x3D; host.switchToHttp();
+    const response &#x3D; http.getResponse&lt;Response&gt;();
+    const request &#x3D; http.getRequest&lt;Request&gt;();
+    const status &#x3D; exception.getStatus();
+    const exceptionResponse &#x3D; exception.getResponse();
+    const err &#x3D;
+      typeof exceptionResponse &#x3D;&#x3D;&#x3D; &#39;string&#39;
+        ? &#123; err: exceptionResponse &#125;
+        : exceptionResponse;
+
+    response.status(status).json(&#123;
+      ...err,
+      path: request.url,
+      time: new Date().toISOString(),
+    &#125;);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面代码中，我们主要有以下步骤：</p>
+<ol>
+<li>传入<code>HttpException</code>类，表明我们要处理<code>HTTP</code>的异常；</li>
+<li>通过<code>host</code>参数分别获取到<code>Express</code>的<code>Request</code>和<code>Response</code>对象；</li>
+<li>通过<code>exception</code>获取到错误信息和状态码；</li>
+<li>把整理的信息更友好的返回回去！</li>
+</ol>
+<p>好的，完成以上编写后，我们进入<code>main.ts</code>文件中进行一个全局过滤器的注册，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">app.useGlobalFilters(new HttpFilterFilter());<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>完成以上步骤后，我们这次请求一个不存在的接口，发现返回如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbd397597ebb43e9ba4de3ed029091e2~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以发现，现在的返回信息变的更为详细了。</p>
+<h2 id="useFilters"><a href="#useFilters" class="headerlink" title="@useFilters"></a>@useFilters</h2><p>通过使用<code>@useFilters()</code>装饰器，我们可以对单独的控制器甚至某一个路由进行过滤，例如如下代码：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get(&#39;:name&#39;)
+@UseFilters()
+helloName(@Param(&#39;name&#39;) name: string) &#123;
+    throw new HttpException(&#39;test error&#39;, 404);
+    return &#96;Hello $&#123;name&#125;&#96;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时我声明了<code>@UseFilters()</code>装饰器但是没指定用哪个过滤器，返回如下：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8c8b2363e16e49789e49c97a7f07fa1a~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>接着，我们传入刚刚定义的自定义过滤器，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get(&#39;:name&#39;)
+@UseFilters(HttpFilterFilter)
+helloName(@Param(&#39;name&#39;) name: string) &#123;
+    throw new HttpException(&#39;test error&#39;, 404);
+    return &#96;Hello $&#123;name&#125;&#96;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再次调用接口，如下图所示：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/316b19803fb74d068a4c1cca0ac9ee85~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h1 id="守卫——Guards"><a href="#守卫——Guards" class="headerlink" title="守卫——Guards"></a>守卫——Guards</h1><p>在<code>nest.js</code>中为我们内置了守卫功能，通过自定义的守卫功能我们可以实现对接口的权限控制。</p>
+<h2 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h2><p>首先输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g guard common&#x2F;guards&#x2F;api-key --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>执行完成后，可以看到在<code>src/common/guards</code>目录下多了<code>api-key.guard.ts</code>文件，打开后代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; CanActivate, ExecutionContext, Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Observable &#125; from &#39;rxjs&#39;;
+
+@Injectable()
+export class ApiKeyGuard implements CanActivate &#123;
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise&lt;boolean&gt; | Observable&lt;boolean&gt; &#123;
+    return true;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以发现，该类实现了<code>CanActivate</code>的<code>canActivate</code>方法，通过该方法我们就可以实现对路由做一个权限控制，现在这里默认返回的<code>ture</code>，我们改为<code>false</code>后试着调接口，发现结果如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/be79ffdc6b904e29a1b8482edb01285e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以看到，当返回<code>false</code>后就无法再访问接口。所以，我们可以通过该功能来完成一些认证，例如：  </p>
+<p><strong>通过定义一个<code>token</code>凭证，如果访问接口传入则能访问，否则不能访问。</strong></p>
+<p>实现如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; CanActivate, ExecutionContext, Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Reflector &#125; from &#39;@nestjs&#x2F;core&#39;;
+import &#123; Request &#125; from &#39;express&#39;;
+import &#123; Observable &#125; from &#39;rxjs&#39;;
+
+@Injectable()
+export class ApiKeyGuard implements CanActivate &#123;
+  constructor(private readonly reflector: Reflector) &#123;&#125;
+
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise&lt;boolean&gt; | Observable&lt;boolean&gt; &#123;
+    const request &#x3D; context.switchToHttp().getRequest&lt;Request&gt;();
+    if (request.headers.token &#x3D;&#x3D;&#x3D; &#39;abcdefg&#39;) &#123;
+      return true;
+    &#125;
+    return false;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面代码对<code>token</code>进行了一个认证判断，我们尝试调接口再看结果，如下图所示：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb6f52896d724049bba008df489047dd~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77b4e3fefaef4b4f8ab52db853af0110~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以看到，当传入<code>token</code>时，接口正常返回，否则无法正常返回。</p>
+<h2 id="SetMetadata"><a href="#SetMetadata" class="headerlink" title="@SetMetadata()"></a>@SetMetadata()</h2><p>通过<code>nest.js</code>内置的<code>@SetMetadata()</code>可以在路由上设置元数据，通过元数据可以方便我们在守卫中进行一个身份的判断，如下所示：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get()
+@SetMetadata(&#39;IS_PUBLIC&#39;, true)
+hello() &#123;
+    return &#123;
+      type: this.goodsType,
+      mockType: this.mockType,
+      greet: this.goodsService.getHello(),
+      mockGreet: this.mockService.getHello(),
+      env: this.configService.get(&#39;TITLE&#39;),
+    &#125;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>现在，我们再在守卫中加入如下逻辑：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Injectable()
+export class ApiKeyGuard implements CanActivate &#123;
+  constructor(private readonly reflector: Reflector) &#123;&#125;
+
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise&lt;boolean&gt; | Observable&lt;boolean&gt; &#123;
+    const request &#x3D; context.switchToHttp().getRequest&lt;Request&gt;();
+    const isPublic &#x3D; this.reflector.get(&#39;IS_PUBLIC&#39;, context.getHandler());
+    if (isPublic) &#123;
+      return true;
+    &#125;
+    if (request.headers.token &#x3D;&#x3D;&#x3D; &#39;abcdefg&#39;) &#123;
+      return true;
+    &#125;
+    return false;
+  &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>因为上面我们通过依赖注入的方式引入了<code>Refactor</code>类，但是我们的守卫却是自己在<code>main.ts</code>函数手动实例化的，所以这里会有问题导致报错。  </p>
+<p>下面，我们新建一个<code>common</code>模块，输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g mo common<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后打开<code>common/common.module</code>文件，编写如下代码：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; APP_GUARD &#125; from &#39;@nestjs&#x2F;core&#39;;
+import &#123; ApiKeyGuard &#125; from &#39;.&#x2F;guards&#x2F;api-key.guard&#39;;
+
+@Module(&#123;
+  providers: [
+    &#123;
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
+    &#125;,
+  ],
+&#125;)
+export class CommonModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面的<code>providers</code>是我们所熟悉的，其中<code>APP_GUARD</code>是<code>nest.js</code>里面内置的类，这里的作用就是等同我们注册了一个全局守卫，只是该方式可以让<code>ApiKeyGuard</code>类使用依赖注入的功能。</p>
+<p>此时，我们再不带<code>token</code>访问时结果依然正常返回，如下图：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6d110b803a21412d8ed7aeba397922ed~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h1 id="拦截器——Interceptors"><a href="#拦截器——Interceptors" class="headerlink" title="拦截器——Interceptors"></a>拦截器——Interceptors</h1><p>在<code>nest.js</code>中拦截器可以帮我们对<strong>请求</strong>或者<strong>响应</strong>时添加额外的逻辑操作。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>打开终端，输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g in common&#x2F;interceptors&#x2F;response --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>命令执行成功后，会在<code>src/common/interceptors</code>目录下生成<code>response.interceptor.ts</code>文件：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Observable &#125; from &#39;rxjs&#39;;
+
+@Injectable()
+export class ResponseInterceptor implements NestInterceptor &#123;
+  intercept(context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; &#123;
+    return next.handle();
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以发现，在<code>nest.js</code>中拦截器用到了<code>rx.js</code>库，这个库是一个用于操作异步的库，需要去专门了解了才能更懂怎么运动。<br>因为<code>rx.js</code>算独立的一个学习路线。所以，这里我们就介绍<code>nest.js</code>提供的直接用法吧。</p>
+<p>先来看一下拦截器的一个作用范围，我们编写如下代码：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Observable, tap &#125; from &#39;rxjs&#39;;
+
+@Injectable()
+export class ResponseInterceptor implements NestInterceptor &#123;
+  intercept(context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; &#123;
+    console.log(&#39;before&#39;);
+    return next.handle().pipe(tap(() &#x3D;&gt; console.log(&#39;after&#39;)));
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再在控制器的路由加上如下代码：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get()
+@Public()
+hello() &#123;
+    console.log(&#39;request&#39;);
+    return &#123;
+      type: this.goodsType,
+      mockType: this.mockType,
+      greet: this.goodsService.getHello(),
+      mockGreet: this.mockService.getHello(),
+      env: this.configService.get(&#39;TITLE&#39;),
+    &#125;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当我们请求接口时，发现日志打印信息如下：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a824fd48f319469badf9566bf0dfa821~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以发现，拦截器分打印的两条信息分别在请求前和请求后。</p>
+<h2 id="响应拦截"><a href="#响应拦截" class="headerlink" title="响应拦截"></a>响应拦截</h2><p>现在，我们就通过<code>nest.js</code>提供的操作方法对返回信息做一个包装，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Observable, map &#125; from &#39;rxjs&#39;;
+
+@Injectable()
+export class ResponseInterceptor implements NestInterceptor &#123;
+  intercept(context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; &#123;
+    return next.handle().pipe(
+      map((data) &#x3D;&gt; (&#123;
+        code: 0,
+        data,
+        err: null,
+        msg: &#39;ok&#39;,
+      &#125;)),
+    );
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在<code>map</code>里面传入的<code>data</code>参数就是我们路由返回的信息。现在尝试请求接口，发现返回如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/03c5a269e82046cb8649e3697cf1ceeb~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h2 id="超时拦截"><a href="#超时拦截" class="headerlink" title="超时拦截"></a>超时拦截</h2><p>在<code>nest.js</code>中还为我们提供了一个超时拦截的处理，打开终端执行如下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g in common&#x2F;interceptors&#x2F;timeout --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>打开对应文件，进行如下代码编写：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Observable, timeout &#125; from &#39;rxjs&#39;;
+
+@Injectable()
+export class TimeoutInterceptor implements NestInterceptor &#123;
+  intercept(context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; &#123;
+    return next.handle().pipe(timeout(3000));
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>现在我们来通过伪代码实现超过<code>3s</code>的返回，修改控制器中的代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get()
+@Public()
+async hello() &#123;
+    await new Promise((resolve) &#x3D;&gt; setTimeout(resolve, 3000));
+    return &#123;
+      type: this.goodsType,
+      mockType: this.mockType,
+      greet: this.goodsService.getHello(),
+      mockGreet: this.mockService.getHello(),
+      env: this.configService.get(&#39;TITLE&#39;),
+    &#125;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>再次请求接口，发现结果如下：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/257e4c6c1b1b4ddaaae951db3c67775e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>显然，虽然返回了错误信息，但是并没有表示是超时导致的错误，现在我们修改超时拦截器：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+  RequestTimeoutException,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123;
+  Observable,
+  timeout,
+  catchError,
+  TimeoutError,
+  throwError,
+&#125; from &#39;rxjs&#39;;
+
+@Injectable()
+export class TimeoutInterceptor implements NestInterceptor &#123;
+  intercept(context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; &#123;
+    return next.handle().pipe(
+      timeout(3000),
+      catchError((err) &#x3D;&gt; &#123;
+        if (err instanceof TimeoutError) &#123;
+          return throwError(() &#x3D;&gt; new RequestTimeoutException());
+        &#125;
+        return throwError(() &#x3D;&gt; err);
+      &#125;),
+    );
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再次调用接口，发现返回信息已经修改，如下所示：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db26e7b53a3b414ea112a7702e4450a0~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h1 id="管道——Pipes"><a href="#管道——Pipes" class="headerlink" title="管道——Pipes"></a>管道——Pipes</h1><p>在<code>nest.js</code>中管道可以将我们传入的数据通过转换，然后输出为期望的数据；也或者对传入的参数进行一个验证，就例如之前我们已经用过<code>ValidationPipe</code>来对输入进行验证。</p>
+<h2 id="使用-3"><a href="#使用-3" class="headerlink" title="使用"></a>使用</h2><p>打开终端输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g pipe common&#x2F;pipes&#x2F;parse-int --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>命令执行完成以后，会在<code>src/common/pipes</code>目录下生成<code>parse-int.pipe.ts</code>文件，打开文件内容如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; ArgumentMetadata, Injectable, PipeTransform &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Injectable()
+export class ParseIntPipe implements PipeTransform &#123;
+  transform(value: any, metadata: ArgumentMetadata) &#123;
+    return value;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过实现<code>PipeTransform</code>接口的<code>transform</code>方法，我们就可以对传入的数据进行一个操作，例如我这里期望的是把传入的字符串数字转为一个整数，实现如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; ArgumentMetadata, Injectable, PipeTransform &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; BadRequestException &#125; from &#39;@nestjs&#x2F;common&#x2F;exceptions&#39;;
+
+@Injectable()
+export class ParseIntPipe implements PipeTransform &#123;
+  transform(value: any, metadata: ArgumentMetadata) &#123;
+    const _value &#x3D; parseInt(value);
+    if (Number.isNaN(_value)) &#123;
+      throw new BadRequestException(&#39;parseInt fail.&#39;);
+    &#125;
+    return _value;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>现在我们不通过全局注册来使用，而是指定某个路由的参数，如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get(&#39;:name&#39;)
+@UseFilters(HttpFilterFilter)
+helloName(@Param(&#39;name&#39;, ParseIntPipe) name: string) &#123;
+    console.log(name, typeof name);
+    return &#96;Hello $&#123;name&#125;&#96;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在<code>@Param()</code>的第二个参数中传入自定义的<code>Pipe</code>对象，然后请求接口访问看到打印日志如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/564c4eb5eeba464c9a59e5d667f77b90~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>当传入错误的类型时，返回如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5fab158b8c2049fd80b7b1d857d14e00~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h1 id="中间件——Middleware"><a href="#中间件——Middleware" class="headerlink" title="中间件——Middleware"></a>中间件——Middleware</h1><p>在<code>nest.js</code>中，中间件是处理路由或者其他模块（拦截器、过滤器等）之前的调用函数。</p>
+<h2 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h2><p>例如，我们这里通过中间件实现一个统计<strong>请求-&gt;返回</strong>过程的耗时，打开终端输入命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g mi common&#x2F;middlewares&#x2F;time --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>命令执行完成后，在<code>src/common/middlewares</code>目录下生成了一个<code>time.middleware.ts</code>文件，内容如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable, NestMiddleware &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Injectable()
+export class TimeMiddleware implements NestMiddleware &#123;
+  use(req: any, res: any, next: () &#x3D;&gt; void) &#123;
+    next();
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>注意：任何中间件都必须执行<code>next()</code>方法方行，否则请求将被挂起！</p>
+</blockquote>
+<p>现在我们需要注册中间件，这里我们通过在之前创建的<code>common.module</code>模块文件中进行注册，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; MiddlewareConsumer, Module, NestModule &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; APP_GUARD &#125; from &#39;@nestjs&#x2F;core&#39;;
+import &#123; ApiKeyGuard &#125; from &#39;.&#x2F;guards&#x2F;api-key.guard&#39;;
+import &#123; TimeMiddleware &#125; from &#39;.&#x2F;middlewires&#x2F;time.middleware&#39;;
+
+@Module(&#123;
+  providers: [
+    &#123;
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
+    &#125;,
+  ],
+&#125;)
+export class CommonModule implements NestModule &#123;
+  configure(consumer: MiddlewareConsumer) &#123;
+    consumer.apply(TimeMiddleware).forRoutes(&#39;*&#39;);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面的<code>forRoutes(&#39;*&#39;)</code>表示给所有路由都执行中间件。</p>
+<p>现在我们开始时间请求时间的耗时，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable, NestMiddleware &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Injectable()
+export class TimeMiddleware implements NestMiddleware &#123;
+  use(req: any, res: any, next: () &#x3D;&gt; void) &#123;
+    console.time(&#39;time&#39;);
+    res.on(&#39;finish&#39;, () &#x3D;&gt; console.timeEnd(&#39;time&#39;));
+    next();
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过监听请求的响应结束事件，我们很容易就能获取到耗时，尝试请求接口，发现打印日志如下：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92e6da2ff80340cf8ec6925e42a84638~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h1 id="自定义参数装饰器"><a href="#自定义参数装饰器" class="headerlink" title="自定义参数装饰器"></a>自定义参数装饰器</h1><p>在<code>nest.js</code>中我们可以通过<code>createParamDecorator</code>函数来实现自定义的装饰器，现在我们新建一个<code>src/common/header.decorator.ts</code>文件，并编写如下代码：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; createParamDecorator, ExecutionContext &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; Request &#125; from &#39;express&#39;;
+export const Header &#x3D; createParamDecorator(
+  (value: string, ctx: ExecutionContext) &#x3D;&gt; &#123;
+    const req &#x3D; ctx.switchToHttp().getRequest&lt;Request&gt;();
+    return value ? req.headers[value] : req.headers;
+  &#125;,
+);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面的<code>value</code>表示使用装饰器时传入的值，通过该值我们可以灵活的返回对应内容。</p>
+<p>现在我们在控制器的路由中添加我们编写的装饰器：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get(&#39;:name&#39;)
+@UseFilters(HttpFilterFilter)
+helloName(@Param(&#39;name&#39;) name: string, @Header() header: any) &#123;
+    console.log(header);
+    return &#96;Hello $&#123;name&#125;&#96;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>尝试请求接口，返回如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c8d057cfa5964c3fb8c3cb19663a6ea1~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>现在我们修改一下装饰器的参数，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get(&#39;:name&#39;)
+@UseFilters(HttpFilterFilter)
+helloName(@Param(&#39;name&#39;) name: string, @Header(&#39;token&#39;) token: string) &#123;
+    console.log(token);
+    return &#96;Hello $&#123;name&#125;&#96;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再次请求接口，返回如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ee5b1a2b07674b158801a7a569866e7b~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h1 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h1><p>到这里，我们就已经对<code>nest.js</code>的初级应用有一个简单的了解了，对于每个知识点更详细的用法还需要查阅资料来探索怎么使用！</p>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2023/04/01/从0到1实现NestJS的服务端应用——初级篇/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="toc-number">2.</span> <span class="toc-text">依赖注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.2.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#useClass"><span class="toc-number">2.2.1.</span> <span class="toc-text">useClass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useValue"><span class="toc-number">2.2.2.</span> <span class="toc-text">useValue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useFactory"><span class="toc-number">2.2.3.</span> <span class="toc-text">useFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Async"><span class="toc-number">2.2.4.</span> <span class="toc-text">Async</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">2.3.</span> <span class="toc-text">环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.1.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-number">2.3.2.</span> <span class="toc-text">验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConfigService"><span class="toc-number">2.3.3.</span> <span class="toc-text">ConfigService</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E2%80%94%E2%80%94Filter"><span class="toc-number">3.</span> <span class="toc-text">过滤器——Filter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-1"><span class="toc-number">3.1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#useFilters"><span class="toc-number">3.2.</span> <span class="toc-text">@useFilters</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%88%E5%8D%AB%E2%80%94%E2%80%94Guards"><span class="toc-number">4.</span> <span class="toc-text">守卫——Guards</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-2"><span class="toc-number">4.1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SetMetadata"><span class="toc-number">4.2.</span> <span class="toc-text">@SetMetadata()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8%E2%80%94%E2%80%94Interceptors"><span class="toc-number">5.</span> <span class="toc-text">拦截器——Interceptors</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B"><span class="toc-number">5.1.</span> <span class="toc-text">开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%8B%A6%E6%88%AA"><span class="toc-number">5.2.</span> <span class="toc-text">响应拦截</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E6%8B%A6%E6%88%AA"><span class="toc-number">5.3.</span> <span class="toc-text">超时拦截</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E2%80%94%E2%80%94Pipes"><span class="toc-number">6.</span> <span class="toc-text">管道——Pipes</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-3"><span class="toc-number">6.1.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E2%80%94%E2%80%94Middleware"><span class="toc-number">7.</span> <span class="toc-text">中间件——Middleware</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-4"><span class="toc-number">7.1.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%82%E6%95%B0%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-number">8.</span> <span class="toc-text">自定义参数装饰器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">完结</span></a></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2023/04/01/从0到1实现NestJS的服务端应用——身份认证/">从0到1实现NestJS的服务端应用——身份认证</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/">从0到1实现NestJS的服务端应用——数据库篇</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2023/04/01/从0到1实现NestJS的服务端应用——初级篇/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大噶好。唔系可乐爱宅着，欢迎你们来到我的博客小站，希望能在这里收获到有用的东西哦！ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+    <div class="operate-item turn-comment hidden">
+      <i class="iconfont icon-pinglun"></i>
+      <span>查看评论</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        console.log(_commentDom)
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"安河桥","artist":"宋冬野","url":"http://ting6.yymp3.net:82/new25/songdongye/11.mp3","cover":"https://img2.baidu.com/it/u=1260056724,1076343118&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"},{"name":"卡布达","artist":"暂无","url":"music/kabuda.mp3","cover":"https://img2.baidu.com/it/u=705831265,2862720033&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      if (/^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(location.pathname.replace(rootPath, ''))) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll()
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+      // $('.main-container').fadeIn()
+    })
+  </script>
+</body>
+</html>

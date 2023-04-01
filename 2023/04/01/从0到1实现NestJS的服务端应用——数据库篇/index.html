@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>我的技术与生活——从0到1实现NestJS的服务端应用——数据库篇 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="../../../../imgs/shortcut-icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/public.css" />
+  <link rel="stylesheet" href="../../../../css/layout.css" />
+  <link rel="stylesheet" href="../../../../css/iconfont.css" />
+  <link rel="stylesheet" href="../../../../css/APlayer.min.css" />
+  <script src="../../../../js/APlayer.min.js"></script>
+  <script src="../../../../js/jquery.min.js"></script>
+  <script src="../../../../js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `我的技术与生活——从0到1实现NestJS的服务端应用——数据库篇`
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://aizener.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="../../../../imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Cola.</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">中二</span>
+          <span class="main-left--tag">宅</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“花有重开日，人无再少年”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Aizener"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>2</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>8</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>5 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>10 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>410天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.2</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">从0到1实现NestJS的服务端应用——数据库篇</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="../../../../categories/NodeJS/">NodeJS</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="../../../../tags/JavaScript/" rel="tag">JavaScript</a><a class="tag-link" href="../../../../tags/NestJS/" rel="tag">NestJS</a>
+          </div>
+          
+          <p class="article-info--date">日期：2023-04-01 11:37:22</p>
+        </div>
+        <img src="https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content">
+      <h1 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h1><p>从这里开始，我们将对nest.js的对数据操作的基本应用做一个简单的讲解，主要是明白如何通过访问接口来进行增删改查的基本操作。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>这里我们使用的数据库是Mysql数据库，可以进入<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/">Mysql官方下载地址</a>按照自己的系统选择下载，目前我这里使用的版本图如下：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0658dbc61c724fdbaa4fe85f8ec089f9~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>工欲善其事必先利其器，接着就需要安装一个数据库的可视化应用，我这里下载的是Navicat软件。</p>
+<p>一切准备就绪后，就可以进行下一个步骤了。</p>
+<h3 id="TypeORM"><a href="#TypeORM" class="headerlink" title="TypeORM"></a>TypeORM</h3><p>TypeORM 是一个<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a>框架，它可以运行在 NodeJS、Browser、Cordova、PhoneGap、Ionic、React Native、Expo 和 Electron 平台上，可以与 TypeScript 和 JavaScript (ES5,ES6,ES7,ES8)一起使用。 它的目标是始终支持最新的 JavaScript 特性并提供额外的特性以帮助你开发任何使用数据库的（不管是只有几张表的小型应用还是拥有多数据库的大型企业应用）应用程序。 – 摘自官网</p>
+<p>在<code>nest.js</code>中，内置并推荐我们使用<code>TypeORM</code>来操作数据库，至于什么是ORM？简单来说就是把<code>JavaScript</code>的对象映射为数据的一张表，通过操作该对象来使得影响数据库中表的结果。</p>
+<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><p>安装完数据库后，首先我使用Navicat来连接Mysql数据库，看看是否能成功连接，执行步骤如下：</p>
+<ol>
+<li>进入Navicat软件，点击连接，会弹出一个提示框让我们输入凭证；</li>
+<li>输入对应的地址和用户名、密码，点击测试连接，看到下图即表达连接可行：</li>
+</ol>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2533c5fd29f847b8baa28fd1a5bfbd68~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<ol start="3">
+<li>点击<strong>OK</strong>进行连接，就完成了。</li>
+</ol>
+<p>在Navicat中测试连接成功后，我们就需要在<code>nest.js</code>来进行数据库的间接了，连接的代码如下所示：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; app.module.ts
+import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; TypeOrmModule &#125; from &#39;@nestjs&#x2F;typeorm&#39;;
+
+@Module(&#123;
+  imports: [
+    TypeOrmModule.forRoot(&#123;
+      type: &#39;mysql&#39;,
+      host: &#39;localhost&#39;,
+      port: 3306,
+      username: &#39;root&#39;,
+      password: &#39;password&#39;,
+      database: &#39;demo&#39;,
+      autoLoadEntities: true,
+      synchronize: true,
+    &#125;)
+  ]
+&#125;)
+export class AppModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>type: 表示要连接的数据库类型，因为TypeORM支持多种数据库；</li>
+<li>host：连接的目标主机号，我们是本地的服务，所以是localhost；</li>
+<li>port：数据库的端口号，mysql默认为3306；</li>
+<li>username：登入数据库的用户名；</li>
+<li>password：登入数据库的密码；</li>
+<li>database：要使用的mysql数据库；</li>
+<li>autoLoadEntities：自动加载实体类去映射到数据库；</li>
+<li>synchronize：是否同步本地的修改到数据库。</li>
+</ul>
+<blockquote>
+<p>警告：synchronize严禁在生产环境下使用，因为有可能会导致数据的丢失。</p>
+</blockquote>
+<p>完成以上配置后，执行<code>npm run start:dev</code>启动服务，没有报错的话，就表示数据库已经连接成功了。</p>
+<h2 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h2><p>还记得之前建立的商品实体对象嘛？当时，这个对象就仅仅当做类型来使用了一下，并没有其他用处。但是，在我们是使用<code>TypeORM</code>后，我们就可以让实体类和数据库进行一个映射关系。  </p>
+<h3 id="关联实体"><a href="#关联实体" class="headerlink" title="关联实体"></a>关联实体</h3><p>现在，先来改造一下实体类，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+&#125; from &#39;typeorm&#39;;
+import &#123; Keywords &#125; from &#39;.&#x2F;keywords.entity&#39;;
+
+@Entity()
+export class Goods &#123;
+  @PrimaryGeneratedColumn()
+  id: number;
+  
+  @Column()
+  name: string;
+
+  @Column(&#123;
+    type: Number,
+  &#125;)
+  price: number;
+  
+  @Column()
+  brand: string;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在上面的实体类代码中，我们通过<code>@Entity()</code>装饰器修饰了该实体，并且通过<code>@Column()</code>装饰器装饰每个字段，其中比较特殊的是<code>@PrimaryGeneratedColumn()</code>，这个装饰器表示修饰的该字段是一个自增主键。</p>
+<p>当实体类改造完毕以后，我们就需要在<code>goods.service</code>中注入存储库对象，这个对象就是用来操作数据库的。在注入存储库之前，我们得先做一个操作，就是需要在<code>goods.module</code>中进行注册，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; TypeOrmModule &#125; from &#39;@nestjs&#x2F;typeorm&#39;;
+import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Goods &#125; from &#39;.&#x2F;entities&#x2F;goods.entity&#39;;
+
+@Module(&#123;
+  imports: [TypeOrmModule.forFeature([Goods])],
+  controllers: [GoodsController],
+  providers: [GoodsService],
+&#125;)
+export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果操作一切正确，打开<code>Navicat</code>我们就能发现多了一张<code>goods</code>表了！</p>
+<h3 id="注入存储库"><a href="#注入存储库" class="headerlink" title="注入存储库"></a>注入存储库</h3><p>通过<code>TypeOrmModule.forFeature([Goods])</code>该方法后，就实现了存储库的注册，现在我们在<code>goods.service</code>进行注入，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; UpdateGoodsDto &#125; from &#39;.&#x2F;dto&#x2F;update-goods.dto&#39;;
+import &#123; CreateGoodsDto &#125; from &#39;.&#x2F;dto&#x2F;create-goods.dto&#39;;
+import &#123; Goods &#125; from &#39;.&#x2F;entities&#x2F;goods.entity&#39;;
+import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; InjectRepository &#125; from &#39;@nestjs&#x2F;typeorm&#39;;
+import &#123; Repository &#125; from &#39;typeorm&#39;;
+
+@Injectable()
+export class GoodsService &#123;
+  constructor(
+    @InjectRepository(Goods)
+    private readonly goodsRepositroy: Repository&lt;Goods&gt;,
+  ) &#123;&#125;
+
+  async findGoodsById(id: number) &#123;
+    return await this.goodsRepositroy.findOneBy(&#123; id &#125;);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到，在构造函数中我们定义了一个通过<code>@InjectRepository(Goods)</code>装饰器修饰的<code>goodsRepository</code>对象，通过该对象我们就可以操作数据库了。  </p>
+<p>在下面的<code>findGoodsById</code>方法中，就通过了<code>findOneBy(&#123; id &#125;)</code>方法对数据库进行了一个条件的查询，现在我通过<code>Navigate</code>工具手动添加一条数据：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2090b7a0f5c246af96cf8b130722ddfb~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>数据添加完成后，尝试进行对商品查询的接口调用，结果如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/588d42692f364a28979f3388f43df337~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>一切都很好，说明我们的查询功能十分顺利。</p>
+<h3 id="存储库管理"><a href="#存储库管理" class="headerlink" title="存储库管理"></a>存储库管理</h3><p>可以看到，上面我们通过定义的<code>goodsRepositroy</code>对象就可以查询数据库了，那么这个<code>goodsRepositroy</code>是什么呢？<br>其实<code>goodsRepositroy</code>就是存储库管理<code>Repository</code>实例的对象，通过该对象我们可以访问<strong>指定实体</strong>对应的数据库关系，并且该对象提供了一系列方法供我们来使用，比如下面常用的4个<code>Api</code>方法：</p>
+<ul>
+<li>find：查询出满足条件的所有数据；</li>
+<li>findOneBy：通过指定条件查询一条数据出来</li>
+<li>save：即可用作保存，也可用作修改操作；</li>
+<li>delete：根据条件删除数据；</li>
+</ul>
+<h3 id="表之间关联"><a href="#表之间关联" class="headerlink" title="表之间关联"></a>表之间关联</h3><p>之前我们定义<code>Goods</code>实体的时候使用<code>keywords</code>属性来存放关键字，但实际上关键字作为一个实体更合理。现在我们以<code>Keywords</code>来新建另一个实体，并且让<code>Goods</code>和<code>Keywords</code>来进行一个关联。</p>
+<p>新建<code>Keywords</code>实体类文件，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Goods &#125; from &#39;.&#x2F;goods.entity&#39;;
+import &#123; Column, Entity, ManyToMany, PrimaryGeneratedColumn &#125; from &#39;typeorm&#39;;
+
+@Entity()
+export class Keywords &#123;
+  @PrimaryGeneratedColumn()
+  id: number;
+  
+  @Column()
+  name: string;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当程序编译完成，数据库中多了一张<code>keywords</code>表，接下来我们就需要把<code>Keywords</code>和<code>Goods</code>实体关联起来。<br>不难知道，商品和关键字的关系是多对多的关系，因为一个关键字可以对应多个商品，一个商品也可以拥有多个关键字，所以这里我们需要<code>TypeORM</code>提供的<code>@ManyToMany()</code>装饰器来修饰，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.entity.ts
+@JoinTable()
+@ManyToMany((type) &#x3D;&gt; Keywords, (keywords) &#x3D;&gt; keywords.goods, &#123;
+  cascade: true,
+&#125;)
+keywords: Keywords[];
+
+&#x2F;&#x2F; keywords.entity.ts
+@ManyToMany((type) &#x3D;&gt; Goods, (goods) &#x3D;&gt; goods.keywords, &#123;
+  cascade: true,
+&#125;)
+goods: Goods[];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>现在来说明一下上面代码的意思：</p>
+<ul>
+<li>@JoinTable()：表示关系的拥有者，只需要在其中一个定义即可；</li>
+<li>@ManyToMany()：表示两个实体间的关系为多对多<ul>
+<li>arg1：表示需要建立关系的实体类对象；</li>
+<li>arg2：建立关系的实体类对象引用的当前实体类属性；</li>
+<li>options：cascade表示是否级联，级联之后添加和修改时，主表都会影响从表的记录。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注意：多对多关系会生成三张表，多出来的那一张是中间表，记录两个表数据的对应关系。</p>
+</blockquote>
+<p>完成以上步骤后，我们现在尝试进行数据的保存，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.service.ts
+async addGoods(createGoodsDto: CreateGoodsDto) &#123;
+    const keywords &#x3D; await Promise.all(
+      createGoodsDto.keywords.map((item) &#x3D;&gt; this.preloadKeywordsByName(item)),
+    );
+    const goods &#x3D; this.goodsRepositroy.create(&#123;
+      ...createGoodsDto,
+      keywords,
+    &#125;);
+    return await this.goodsRepositroy.save(goods);
+&#125;
+
+private async preloadKeywordsByName(name: string) &#123;
+    const keywords &#x3D; await this.keywordsRepository.findOneBy(&#123; name &#125;);
+    if (keywords) &#123;
+      return keywords;
+    &#125;
+    return this.keywordsRepository.create(&#123; name &#125;);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面我们通过顶一个<code>preloadKeywordsByName</code>方法来根据关键字名称来加载实体：</p>
+<ol>
+<li>表中存在关键字，存在直接返回该实体；</li>
+<li>表中没有关键字，则创建一个实体对象；<br>然后通过传递进来的<code>keywords</code>参数遍历生成对应的实体对象，进行<code>save()</code>操作后<code>nest.js</code>就会将我们的数据分别保存到三个表中。</li>
+</ol>
+<p>通过接口调用，结果如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8399cd888b634fbe986d644b03ead517~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f939a31d21824bfe8204addd994ae830~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2cafbfb56feb46d6b14a091832ec1d6e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以看到，我们虽然只操作了<code>Goods</code>实体的保存，但是也自动的在<code>keywords</code>表中进行了数据的添加，这是因为<code>cascade</code>级联起的作用。</p>
+<p>好的，我们再进行查询，结果如图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a540c16b5e65491da42e0b8d1b3d526d~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>发现，没有<code>keywords</code>关键字，这是因为当我们查询时，如果需要查询出关联的表的话，需要加上<code>relations</code>参数来指定关联，如下所示：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">async findGoodsById(id: number) &#123;
+  return await this.goodsRepositroy.findOne(&#123;
+    relations: [&#39;keywords&#39;],
+    where: &#123; id &#125;,
+  &#125;);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过添加<code>relations</code>关联后，我们再进行查询，可以发现<code>keywords</code>对应的信息也出现了，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/938d8f37900a4bf6aaf88e968b55c33b~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><p>查询数据的时候，一般都会进行分页的一个筛选查询，否则当数据量大的时候，全部查询出来的效率是比较低的，也是不好处理的。</p>
+<p>进行分页查询需要用到两个参数，一个是<code>skip</code>表示跳过的记录数，另一个是<code>take</code>表示需要查询的记录数量，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">async findAll(paginationQueryDto: PaginationQueryDto) &#123;
+    const &#123; page, size &#125; &#x3D; paginationQueryDto;
+    return this.goodsRepositroy.find(&#123;
+      skip: (page - 1) * size,
+      take: size,
+    &#125;);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们通过上面的方式，来实现根据页数来查询对应数量的记录，尝试调接口看一看返回，如图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4b92fcb062c04fbcacdcc75b16e683ce~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5f2da18d7df1497ca1900a378a0f40dd~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>结果发现，数据是能够分页信息查询出来的！</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>当我们在做某个功能的时候，可能需要操作多次数据库，有可能在其中的某一次操作中会发生异常导致失败。但此时，成功的操作也无法逆转，导致数据出现问题。<br>此时，我们就需要通过事务来解决这个问题。简单说，事务就是保证多次操作数据库时的一致性，要么都成功，要么都失败。</p>
+<p>使用事务时，我们需要通过注入的方式来引用，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Injectable()
+export class GoodsService &#123;
+  constructor(
+    @InjectRepository(Goods)
+    private readonly goodsRepositroy: Repository&lt;Goods&gt;,
+    @InjectRepository(Keywords)
+    private readonly keywordsRepository: Repository&lt;Keywords&gt;,
+    private readonly dataSource: DataSource,
+  ) &#123;&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中，<code>private readonly dataSource: DataSource</code>定义了一个数据源对象，这个对象不用通过装饰器来装饰也能被<code>nest.js</code>给我们进行管理。<br>接着，我们再来看看执行事务的代码，如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">async recommendGoods(id: number) &#123;
+    const queryRunner &#x3D; this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try &#123;
+      const goods &#x3D; await this.goodsRepositroy.findOneBy(&#123; id &#125;);
+      goods.recommend++;
+      const recommentEvent &#x3D; new Event();
+      recommentEvent.name &#x3D; &#39;recommend_goods&#39;;
+      recommentEvent.type &#x3D; &#39;goods&#39;;
+      recommentEvent.payload &#x3D; &#123; goodsId: goods.id &#125;;
+      await queryRunner.manager.save(goods);
+      await queryRunner.manager.save(recommentEvent);
+      await queryRunner.commitTransaction();
+    &#125; catch (err) &#123;
+      await queryRunner.rollbackTransaction();
+    &#125; finally &#123;
+      await queryRunner.release();
+    &#125;
+  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面，我们通过<code>dataSource</code>对象创建了一个<code>QueryRunner</code>对象，通过该对象我们就可以建立连接，并手动控制事务的状态。</p>
+<ul>
+<li>startTransaction()： 开启事务；</li>
+<li>commitTransaction()：提交所有的更改；</li>
+<li>queryRunner.rollbackTransaction()：事务回滚，撤销所有更改；</li>
+<li>queryRunner.release()：释放当前的连接；</li>
+</ul>
+<h3 id="数据迁移"><a href="#数据迁移" class="headerlink" title="数据迁移"></a>数据迁移</h3><p>数据迁移的作用在于，当我们可能需要修改表结构时：如果直接通过修改实体类的话，会导致表里面的数据造成丢失；所以需要通过数据迁移文件来操作数据库，进而达到修改表结构的目的。</p>
+<p>现在，我们通过<code>TypeORM CLI</code>来创建一个数据迁移的文件，输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npx typeorm migration:create src&#x2F;migrations&#x2F;KeywordsRefactor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>执行该命令后，在我们的<code>src/migrations</code>目录下就会生成一个<code>&#123;timestamp&#125;-KeywordsRefactor.ts</code>的文件（timestamp表示自动生成的时间戳），进入该文件发下以下内容：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; MigrationInterface, QueryRunner &#125; from &#39;typeorm&#39;;
+
+export class KeywordsRefactor1678969889283 implements MigrationInterface &#123;
+  public async up(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;&#125;
+
+  public async down(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>其中，<code>up</code>方法表示迁移所需要执行的<code>sql</code>代码；而<code>down</code>表示迁移失败之后，需要回复<code>up</code>操作的方法。<br>例如，我们这里将<code>keywords</code>表的<code>name</code>字段改为<code>title</code>字段，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; MigrationInterface, QueryRunner &#125; from &#39;typeorm&#39;;
+
+export class KeywordsRefactor1678969889283 implements MigrationInterface &#123;
+  public async up(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;
+    queryRunner.query(&#96;
+      ALTER TABLE keywords CHANGE name title varchar(255);
+    &#96;);
+  &#125;
+
+  public async down(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;
+    queryRunner.query(&#96;
+      ALTER TABLE keywords CHANGE title name varchar(255);
+    &#96;);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在执行迁移之前，我们还需要创建一个<code>db.config.ts</code>配置文件，内容如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; DataSource &#125; from &#39;typeorm&#39;;
+
+const AppDataSource &#x3D; new DataSource(&#123;
+  type: &#39;mysql&#39;,
+  host: &#39;localhost&#39;,
+  port: 3306,
+  username: &#39;root&#39;,
+  password: &#39;&#39;,
+  database: &#39;demo&#39;,
+  entities: [&#39;dist&#x2F;**&#x2F;*.entity.js&#39;],
+  migrations: [&#39;dist&#x2F;**&#x2F;migrations&#x2F;*.js&#39;],
+&#125;);
+
+export default AppDataSource;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>配置就和建立数据库连接时的配置基本一样，只是多了两个字段：</p>
+<ul>
+<li>entities：表示实体类的存储位置；</li>
+<li>migrations：表示迁移文件的存储位置；</li>
+</ul>
+<p>因为这里我们迁移过程是根据打包后的<code>dist</code>目录来识别的，所以在迁移之前先进行<code>build</code>构建，执行命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>当生成好<code>dist</code>目录后，我们就可以进行迁移命令了：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npx typeorm-ts-node-esm migration:run -d db.config.ts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>看到终端提示如下信息的话，就表明迁移已经成功了：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c0a0d1b3d1f945e1a8d041d5940662b2~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>并且数据库里面<code>keywords</code>表的字段也已经被修改了：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d700694b5ffe4b52af9f3376231a5f9b~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>此时，如果我们执行下面命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npx typeorm-ts-node-esm migration:revert -d db.config.ts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>再次查看<code>keywords</code>表结构，发现字段名称又被改回去了：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7efe62a2080b4029bd0ae7c830736291~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<blockquote>
+<p>注意：执行了run命令迁移之后的文件会被记录到数据库中，不会再次执行；当revert后记录会被删除。</p>
+</blockquote>
+<h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>基于<code>nest.js</code>配合<code>TypeORM</code>的数据库操作就简单介绍这里，实际上还有很多的<code>API</code>提供使用，但内容太过繁多，不便细写。</p>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B5%B7%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">起步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TypeORM"><span class="toc-number">1.1.1.</span> <span class="toc-text">TypeORM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.</span> <span class="toc-text">连接数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.3.</span> <span class="toc-text">操作数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%AE%9E%E4%BD%93"><span class="toc-number">1.3.1.</span> <span class="toc-text">关联实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">1.3.2.</span> <span class="toc-text">注入存储库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BA%93%E7%AE%A1%E7%90%86"><span class="toc-number">1.3.3.</span> <span class="toc-text">存储库管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E4%B9%8B%E9%97%B4%E5%85%B3%E8%81%94"><span class="toc-number">1.3.4.</span> <span class="toc-text">表之间关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.3.5.</span> <span class="toc-text">分页查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.3.6.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB"><span class="toc-number">1.3.7.</span> <span class="toc-text">数据迁移</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">完结</span></a></li></ol></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2023/04/01/从0到1实现NestJS的服务端应用——初级篇/">从0到1实现NestJS的服务端应用——初级篇</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2023/04/01/从0到1实现NestJS的服务端应用——基础篇/">从0到1实现NestJS的服务端应用——基础篇</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大噶好。唔系可乐爱宅着，欢迎你们来到我的博客小站，希望能在这里收获到有用的东西哦！ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+    <div class="operate-item turn-comment hidden">
+      <i class="iconfont icon-pinglun"></i>
+      <span>查看评论</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        console.log(_commentDom)
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"安河桥","artist":"宋冬野","url":"http://ting6.yymp3.net:82/new25/songdongye/11.mp3","cover":"https://img2.baidu.com/it/u=1260056724,1076343118&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"},{"name":"卡布达","artist":"暂无","url":"music/kabuda.mp3","cover":"https://img2.baidu.com/it/u=705831265,2862720033&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      if (/^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(location.pathname.replace(rootPath, ''))) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll()
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+      // $('.main-container').fadeIn()
+    })
+  </script>
+</body>
+</html>

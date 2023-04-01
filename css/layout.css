@@ -437,7 +437,6 @@
   cursor: pointer;
   overflow: hidden;
   margin-right: 8px;
-  transition: opacity 0.5s;
 }
 .operate-item:last-child {
   margin-right: 0;

@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>我的技术与生活——从0到1实现NestJS的服务端应用——基础篇 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="../../../../imgs/shortcut-icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/public.css" />
+  <link rel="stylesheet" href="../../../../css/layout.css" />
+  <link rel="stylesheet" href="../../../../css/iconfont.css" />
+  <link rel="stylesheet" href="../../../../css/APlayer.min.css" />
+  <script src="../../../../js/APlayer.min.js"></script>
+  <script src="../../../../js/jquery.min.js"></script>
+  <script src="../../../../js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `我的技术与生活——从0到1实现NestJS的服务端应用——基础篇`
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://aizener.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://aizener.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="../../../../imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Cola.</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">中二</span>
+          <span class="main-left--tag">宅</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“花有重开日，人无再少年”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Aizener"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>2</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>8</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>5 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>10 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>410天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.2</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">从0到1实现NestJS的服务端应用——基础篇</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="../../../../categories/NodeJS/">NodeJS</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="../../../../tags/JavaScript/" rel="tag">JavaScript</a><a class="tag-link" href="../../../../tags/NestJS/" rel="tag">NestJS</a>
+          </div>
+          
+          <p class="article-info--date">日期：2023-04-01 11:32:27</p>
+        </div>
+        <img src="https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content">
+      <h1 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h1><p>从这里开始，我们将对nest.js的一个基本应用做一个简单的讲解，包含安装和基本概念的介绍以及简单应用。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Nest (NestJS) 是一个用于构建高效、可扩展的 <a target="_blank" rel="noopener" href="https://nodejs.org/">Node.js</a> 服务器端应用程序的开发框架。它利用 JavaScript 的渐进增强的能力，使用并完全支持 <a target="_blank" rel="noopener" href="http://www.typescriptlang.org/">TypeScript</a> （仍然允许开发者使用纯 JavaScript 进行开发），并结合了 OOP （面向对象编程）、FP （函数式编程）和 FRP （函数响应式编程）。</p>
+<p>在底层，Nest 构建在强大的 HTTP 服务器框架上，例如 <a target="_blank" rel="noopener" href="https://expressjs.com/">Express</a> （默认），并且还可以通过配置从而使用 <a target="_blank" rel="noopener" href="https://github.com/fastify/fastify">Fastify</a> ！</p>
+<p>Nest 在这些常见的 Node.js 框架 (Express&#x2F;Fastify) 之上提高了一个抽象级别，但仍然向开发者直接暴露了底层框架的 API。这使得开发者可以自由地使用适用于底层平台的无数的第三方模块。</p>
+<p>– 摘自官网</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>首先，我们需要安装<code>nest</code>提供的脚手架工具，进入终端输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm i -g @nestjs&#x2F;cli<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>安装完成后，执行<code>nest -v</code>命令，看到终端显示版本号后就表示安装成功，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c26b9f5e484f4a6b987abeadf6c4f209~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>当我们完成<code>nest</code>脚手架的安装后，就可以进行项目的创建了，如下所示，我们这里创建一个项目名为<code>hello</code>的<code>nest</code>应用：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest new hello-word<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>执行完成命名后，看到如下界面就表示项目新建成功了：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e53c81a2f0645658531859eac0534ed~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>安装完成后，使用VSCode编辑打开项目后，我们主要注意<code>src</code>目录下面的文件，可以发现在<code>src</code>目录下有5个默认的文件，如下图：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3bab33bbeb684afc9666b59e6123e7ea~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>这里就对这5个文件进行一个简单的解释：</p>
+<ul>
+<li>app.controller.spec.ts：这是一个用作测试的文件</li>
+<li>app.controller.ts：这是一个控制器文件</li>
+<li>app.module.ts: 这是根模块文件</li>
+<li>app.service.ts：这是一个提供功能服务的文件</li>
+<li>main.ts：这是nest项目的入口文件</li>
+</ul>
+<p>首先，打开<code>main.ts</code>可以发现以下内容：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; NestFactory &#125; from &#39;@nestjs&#x2F;core&#39;;
+import &#123; AppModule &#125; from &#39;.&#x2F;app.module&#39;;
+
+async function bootstrap() &#123;
+  const app &#x3D; await NestFactory.create(AppModule);
+  await app.listen(3000);
+&#125;
+bootstrap();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到内容十分简单，就是引入根模块文件<code>app.module</code>然后通过<code>NestFactory</code>这个对象创建一个应用程序，并且监听端口<code>3000</code>来启动服务。</p>
+<p>再看<code>app.module.ts</code>文件，可以发现该模块通过装饰器语法来对<code>app.controller</code>和<code>app.service</code>进行了一个依赖，如下图：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; AppController &#125; from &#39;.&#x2F;app.controller&#39;;
+import &#123; AppService &#125; from &#39;.&#x2F;app.service&#39;;
+
+@Module(&#123;
+  imports: [],
+  controllers: [AppController],
+  providers: [AppService],
+&#125;)
+export class AppModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着，我们再进入<code>app.controller</code>文件里面看看该控制器里面有什么内容，文件代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Controller, Get &#125; from &#39;@nestjs&#x2F;common&#39;;
+import &#123; AppService &#125; from &#39;.&#x2F;app.service&#39;;
+
+@Controller()
+export class AppController &#123;
+  constructor(private readonly appService: AppService) &#123;&#125;
+
+  @Get()
+  getHello(): string &#123;
+    return this.appService.getHello();
+  &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到该文件定义了一个构造函数，并且通过形参的方式接收了一个<code>AppService</code>对象，然后再名为<code>getHello</code>的路由里面，调用了该服务的<code>getHello</code>方法，并且将结果值进行返回。</p>
+<blockquote>
+<p>这里讲解一下控制器和路由的基本概念<br>控制器是作为应用接受特定请求的一个类，而路由则是决定控制器可以接受哪些请求的方法。在nest.js应用中，控制器由@Controller()定义，路由由@Get()、@Post()等定义。  </p>
+</blockquote>
+<p>打开<code>app.service</code>文件，可以发现就是一个通过装饰器定义了的类，如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Injectable()
+export class AppService &#123;
+  getHello(): string &#123;
+    return &#39;Hello World!&#39;;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们先不管这些装饰器和构造函数等的用法，通过代码可以知道在基本控制器中：<strong>定义了一个路由，并且该路由调用了服务里面的<code>getHello</code>方法，然后将结果值<code>Hello World!</code>进行返回。</strong></p>
+<p>接下来，就通过执行命令来启动服务看一下效果，执行以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm run start:dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后打开浏览器，在地址栏输入：<code>http://localhost:3000</code>后，可以看到页面和我们推论一样，输出的一个<code>HelloWorld</code>的字符串，如下图：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b6fe061e02b44318a7405cb4f2109aa8~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>至此，我们就已经通过这个默认的<code>HelloWorld</code>的例子认识了<code>nset.js</code>应用了，接下来我们就来创建一个自己的控制器和对应的路由来学习如何进行接口请求和响应。</p>
+<h2 id="请求和响应"><a href="#请求和响应" class="headerlink" title="请求和响应"></a>请求和响应</h2><p>现在，我们有一个业务：通过访问接口地址来完成商品的添加修改删除和查看。</p>
+<p>好，现在就开始新建一个命名为<code>goods</code>的控制器，输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g co goods --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>执行完成后，可以发现在<code>src</code>目录下给我们生成了一个<code>goods</code>目录，并且在<code>goods</code>目录下面还会有一个<code>goods.controller.ts</code>文件，这个就是我们编写控制器逻辑的文件。</p>
+<blockquote>
+<p>nest g co co_name表示使用nest脚手架的功能新建一个控制器，g表示生成，co表示控制器，co_name就是对应的名称。<br>如果没有加–no-spec参数的话，还会生成一个goods.controller.spec.ts的测试文件<br>注意：通过该方式生成的控制器，会自动的添加到app.module.ts模块中去，而不需要我们去手动引入。</p>
+</blockquote>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><p>好，接下来我们就要写查看的接口了，通常查询是一个<code>GET</code>方式的请求，所以这里我们使用<code>nestjs</code>提供的<code>@Get()</code>装饰器来定义一个路由，并且返回商品信息，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Controller, Get &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  private goods &#x3D; [];  &#x2F;&#x2F; 没有数据库，暂时通过该方式定义数据
+  @Get()
+  findAll() &#123;
+    return this.goods;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到上面，我们通过<code>@Get</code>装饰器来修饰<code>findAll</code>方法，然后返回了我们已经定义好了的<code>goods</code>数据，接下来通过请求：<code>http://localhost:/goods</code>接口，返回结果如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/926241972bcb44e9be245e6f7eab0a7e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以看到，请求成功，并且在响应里面返回了我们一个空数组<code>[]</code>对象，这是因为我们目前的<code>goods</code>就是一个空数组对象。</p>
+<blockquote>
+<p>补充说明：这里GoodsController通过@Controller(‘goods’)装饰之后，所有的路由路径都会拼上<code>/goods</code>这个前缀。</p>
+</blockquote>
+<h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><p>好的，现在查看已经实现了，但是苦于没有数据，所以这里我们就先来完成如何添加一条数据，因为添加一般采用的都是<code>POST</code>方式进行的，所以我们这里采用<code>@Post()</code>装饰器来定义一个路由，实现<code>POST请求</code>的参数接收。<br>在编写添加逻辑之前，我们先看看如何接收<code>POST</code>请求的参数，代码如下：  </p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Body, Controller, Get, Post &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  private goods &#x3D; [];
+  &#x2F;&#x2F; Get...
+
+  @Post()
+  addGoods(@Body() goods) &#123;
+    console.log(goods);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以发现这里使用的是<code>nestjs</code>提供的<code>@Body()</code>装饰器来实现<code>POST</code>请求参数接收的，现在我们打印一下数据看看<code>goods</code>是一个什么样的数据，如下：</p>
+<p>这是请求接口携带的参数：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/420f3d5a40e64332a51346ce0f295185~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>这是终端输出的<code>goods</code>对象：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/665c2f8823594aeab8ca6caf838f0355~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>知道如何接收参数后，我们就不难写出添加商品的代码了。这里，我们先将商品的类型做了一个简单的类型定义，然后通过<code>@Post</code>装饰器定义<code>addGoods</code>这个<code>POST</code>方式的路由，并且在代码块里面将传入的数据进行了添加如下所示：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Body, Controller, Get, Post &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+type Goods &#x3D; &#123;
+  id: number;
+  name: string;
+  price: number;
+  keywords: string[];
+&#125;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  private goods: Array&lt;Goods&gt; &#x3D; [];
+  @Get()
+  findAll() &#123;
+    return this.goods;
+  &#125;
+
+  @Post()
+  addGoods(@Body() goods: Goods) &#123;
+    this.goods.push(&#123;
+      id: this.goods.length + 1,
+      ...goods,
+    &#125;);
+    return this.goods;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再次执行<code>http://localhost:3000/goods</code>的<code>POST</code>请求方式，发现返回给我们的商品对象已经有了新的数据了，如图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/067335723bce4832a450ae84b8e741af~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h3 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h3><p>修改和添加其实类似的，因为他们接收参数的方式都是通过<code>@Body</code>装饰器来实现的，所以我们只需要关注怎么修改数据即可，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Body, Controller, Get, Post, Put &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+type Goods &#x3D; &#123;
+  id: number;
+  name: string;
+  price: number;
+  keywords: string[];
+&#125;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  private goods: Array&lt;Goods&gt; &#x3D; [];
+  &#x2F;&#x2F; Get...
+  &#x2F;&#x2F; Post...
+
+  @Put()
+  updateGoods(@Body() goods: Goods) &#123;
+    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; goods.id);
+    this.goods[idx] &#x3D; goods;
+    return this.goods;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里我们先通过<code>POST</code>请求添加一个商品信息后，然后再通过<code>PUT</code>请求来修改商品的数据，来进行是否添加成功，过程如下图：</p>
+<ol>
+<li>进行数据添加：</li>
+</ol>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a50495818096467dad3a8ecde7e63888~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<ol start="2">
+<li>然后进行数据修改：</li>
+</ol>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7742b6cb8f974164aee57a958873b57f~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以看到，我们成功的将价格为<code>10</code>的面包修改为了<code>6</code>并且返回成功，说明修已经成功了。</p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除接口往往是通过<code>Delete</code>方式请求的，所以这里我们需要使用<code>nestjs</code>提供的<code>@Delete()</code>装饰器来实现。<br>删除数据需要传入数据<code>id</code>来作为参数，以便我们能精准的知道需要删除哪条数据，这里我们通过动态路由的方式并配合<code>@Params</code>来接收参数，先来看看如何接收参数：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  &#x2F;&#x2F; TODO...
+  
+  @Delete(&#39;:id&#39;)
+  removeGoods(@Param() param) &#123;
+    console.log(param);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里的<code>:id</code>表示一个占位符，可以通过任意参数的形式拼接上来后，然后使用<code>@Param</code>装饰器来接收，现在看看打印的结果：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31f995787a8340f7875181aa2b145dc0~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>此外，还有一种更为简洁的方式来实现参数的接收，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  &#x2F;&#x2F; TODO...
+  
+  @Delete(&#39;:id&#39;)
+  removeGoods(@Param(&#39;id&#39;) id) &#123;&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样，就能直接获取到对象的<code>id</code>属性了，<code>@Body</code>这类的装饰器也支持这种写法。知道如何接收参数后，我们就能很容易的写出删除接口了，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  &#x2F;&#x2F; TODO...
+  
+  @Delete(&#39;:id&#39;)
+  removeGoods(@Param(&#39;id&#39;) id) &#123;
+    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
+    this.goods.splice(idx, 1);
+    return this.goods;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后，通过访问接口看看接口是否正常：</p>
+<ol>
+<li>通过<code>POST</code>方式先增加一个商品：</li>
+</ol>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/04e531f38cc24e8192a0824913b66acc~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<ol start="2">
+<li>通过<code>DELETE</code>方式删除对应<code>id</code>的商品：</li>
+</ol>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed79248cb3b347a5bf6b32a16fdba899~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>可以发现一切正常，商品数据已经被删除了。</p>
+<h3 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h3><p>到这里，我们现在的所有返回的数据都是通过<code>return</code>的方式直接返回的，那如何通过<code>json</code>格式返回呢？这里首先要明白，<code>nestjs</code>默认采用的是<code>express</code>来处理这些逻辑的。<br>在<code>nestjs</code>中通过使用<code>@Res()</code>装饰器定义了一个响应对象，使用该对象就可以指定响应的方式了，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  &#x2F;&#x2F; TODO...
+  
+  @Get(&#39;find&#39;)
+  findById(@Query(&#39;id&#39;) id, @Res() res) &#123;
+    const data &#x3D; this.goods.find((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; +id);
+    res.json(&#123;
+      code: 0,
+      data,
+    &#125;);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们再来看看接口访问的情况：</p>
+<ol>
+<li>通过<code>POST</code>方式添加一条数据：</li>
+</ol>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/04e531f38cc24e8192a0824913b66acc~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<ol start="2">
+<li>然后通过<code>GET</code>方式查询并看到返回格式已经变成了一个<code>json</code>对象了：</li>
+</ol>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b23932e9a9724c44beb78cf3a0cb6a9d~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>对于一些请求，我们会对其进行异常的返回处理，利用<code>nest.js</code>内置的异常类，我们可以很容易的实现这一点，代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">removeGoods(id) &#123;
+  const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
+  if (idx &lt; 0) &#123;
+    throw new HttpException(&#39;没有对应的数据&#39;, HttpStatus.NOT_FOUND);
+  &#125;
+  this.goods.splice(idx, 1);
+  return this.goods;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当删除一个物品时，当没有对应的物品，则抛出一个异常并返回，响应如图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2be8610afa6e478da5e5fb40ab1f589e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><p>我们上面的例子，无论是参数接收还是逻辑处理都是在控制器中进行的，这样的代码组织并不友好，所以我们需要把不同的逻辑操作放到一个个中的服务里面去，当使用对应的功能时再引入不同的服务。</p>
+<h3 id="新建服务"><a href="#新建服务" class="headerlink" title="新建服务"></a>新建服务</h3><p>通过<code>nest.js</code>脚手架命令，我们很容易就能新建一个服务出来，执行以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g s goods --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>一切成功的话，就会发现在<code>src</code>目录下多了一个<code>goods.service.ts</code>文件了。打开该文件，会发现服务类是由装饰器<code>@Injectable()</code>来定义的，服务将通过<code>providers</code>的方式引用，打开<code>app.module.ts</code>文件发现服务已经被自动引入了，这是脚手架的功能。</p>
+<p>在控制器中使用引入的服务的话，需要通过在构造函数中定义对应的服务，然后使用<code>this</code>访问即可。</p>
+<h3 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h3><p>现在有了这个服务文件后，我们就可以将之前在控制器中的逻辑操作代码移动到该服务中去，然后再控制器中只需要调用对应的方法即可，更改后的代码如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.controller.ts
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123;
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  Res,
+&#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Controller(&#39;goods&#39;)
+export class GoodsController &#123;
+  constructor(private readonly goodsService: GoodsService) &#123;&#125;
+  @Get()
+  findAll() &#123;
+    return this.goodsService.findAll();
+  &#125;
+
+  @Get(&#39;find&#39;)
+  findById(@Query(&#39;id&#39;) id, @Res() res) &#123;
+    const data &#x3D; this.goodsService.findById(+id);
+    res.status(200).json(&#123;
+      code: 0,
+      data,
+    &#125;);
+  &#125;
+
+  @Post()
+  addGoods(@Body() goods) &#123;
+    return this.goodsService.addGoods(goods);
+  &#125;
+
+  @Put()
+  updateGoods(@Body() goods) &#123;
+    return this.goodsService.updateGoods(goods);
+  &#125;
+
+  @Delete(&#39;:id&#39;)
+  removeGoods(@Param(&#39;id&#39;) id) &#123;
+    return this.goodsService.removeGoods(+id);
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.service.ts
+import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+type Goods &#x3D; &#123;
+  id: number;
+  name: string;
+  price: number;
+  keywords: string[];
+&#125;;
+
+@Injectable()
+export class GoodsService &#123;
+  private goods: Array&lt;Goods&gt; &#x3D; [];
+
+  findAll() &#123;
+    return this.goods;
+  &#125;
+
+  findById(id: number) &#123;
+    return this.goods.find((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
+  &#125;
+
+  addGoods(goods: Goods) &#123;
+    this.goods.push(&#123;
+      id: this.goods.length + 1,
+      ...goods,
+    &#125;);
+    return this.goods;
+  &#125;
+
+  updateGoods(goods: Goods) &#123;
+    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; goods.id);
+    this.goods[idx] &#x3D; goods;
+    return this.goods;
+  &#125;
+
+  removeGoods(id) &#123;
+    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
+    this.goods.splice(idx, 1);
+    return this.goods;
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样就完成服务的抽离了，编写好的服务能帮助我们更好的组织代码和服用代码。</p>
+<h2 id="实体对象"><a href="#实体对象" class="headerlink" title="实体对象"></a>实体对象</h2><p>目前我们的商品类型是通过<code>type</code>定义的，但是在<code>nest.js</code>中有一种更好的写法，叫做<strong>实体对象</strong>的写法，其实该对象就是一个普通类，现在我们创建一个商品实体对象。</p>
+<ol>
+<li>在<code>src/goods</code>目录下新建<code>entities</code>目录；</li>
+<li>在<code>entites</code>目录下新建<code>goods.entity.ts</code>文件；</li>
+<li>在<code>goods.entity.ts</code>文件中编写如下代码：<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">export default class Goods &#123;
+  id: number;
+  name: string;
+  price: number;
+  keywords: string[];
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>然后将之前的<code>Goods</code>类型替换为该实体。</li>
+</ol>
+<blockquote>
+<p>虽然一切还是正常的进行，但貌似这个实体功能并没有什么作用，这点在后续里面会应用到，这里明白使用实体对象作为类型即可。</p>
+</blockquote>
+<h2 id="数据传送对象"><a href="#数据传送对象" class="headerlink" title="数据传送对象"></a>数据传送对象</h2><p>上面的例子中我们使用<code>@Body()</code>装饰器来接收参数，但是该参数其实是没有一个类型限制的。限制，我们通过数据传输对象就可以实现在接收参数时，对参数的一个限制和转换了。</p>
+<h3 id="创建DTO"><a href="#创建DTO" class="headerlink" title="创建DTO"></a>创建DTO</h3><p>通过<code>nest.js</code>的脚手架命令，我们可以输入以下内容进行<code>DTO</code>文件的创建：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g class goods&#x2F;dto&#x2F;create-goods.dto --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>可以发现，在<code>src/goods</code>目录下多了一个<code>dto</code>目录，并且该目录下多了一个<code>create-goods.dto.ts</code>文件，该文件的编写和实体对象类似，如下：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">export class CreateGoodsDto &#123;
+  name: string;
+  price: number;
+  keywords: string[];
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>现在，我们只需要将<code>POST</code>请求中的<code>@Body()</code>装饰器修饰的参数类型定义为此即可（服务里面涉及的参数一并修改）：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Post()
+addGoods(@Body() createGoodsDto: CreateGoodsDto) &#123;
+return this.goodsService.addGoods(createGoodsDto);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再次访问<code>POST</code>接口，我们尝试把<code>price</code>属性修改为字符串看看是什么结果，结果如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/708d7949fdc549faba555b0900ccd803~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>发现响应一切正常，只是希望得到的<code>price</code>属性变为了字符串类型。那么，这个数据传输对象是个鸡肋嘛？并不是，现在我们搭配<code>nest.js</code>内置的<code>ValidationPipe</code>就能实现奇效！</p>
+<h3 id="ValidationPipe"><a href="#ValidationPipe" class="headerlink" title="ValidationPipe"></a>ValidationPipe</h3><p>使用<code>ValidationPipe</code>非常容易，我们只需要在<code>main.ts</code>中编写如下代码即可：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; ValidationPipe &#125; from &#39;@nestjs&#x2F;common&#x2F;pipes&#x2F;validation.pipe&#39;;
+import &#123; NestFactory &#125; from &#39;@nestjs&#x2F;core&#39;;
+import &#123; AppModule &#125; from &#39;.&#x2F;app.module&#39;;
+
+async function bootstrap() &#123;
+  const app &#x3D; await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(3000);
+&#125;
+bootstrap();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过<code>app.useGlobalPipes(new ValidationPipe());</code>这行代码我们就已经注册好了<code>ValidationPipe</code>对象。</p>
+<p>接下来如果想要<code>ValidationPipe</code>发挥作用的话，还需要安装两个依赖：</p>
+<pre class="line-numbers language-nest.js" data-language="nest.js"><code class="language-nest.js">npm i --save class-validator class-transformer<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>安装完成依赖后，现在我们再进入到<code>create-goods.dto.ts</code>文件中进行以下配置：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; IsString &#125; from &#39;class-validator&#39;;
+import &#123; IsNumber &#125; from &#39;class-validator&#x2F;types&#x2F;decorator&#x2F;decorators&#39;;
+
+export class CreateGoodsDto &#123;
+  @IsString() &#x2F;&#x2F; 表明该字段是string类型
+  name: string;
+  @IsNumber() &#x2F;&#x2F; 表明该字段是nunmber类型
+  price: number;
+  @IsString(&#123; each: true &#125;) &#x2F;&#x2F; 表明该字段是string[]类型
+  keywords: string[];
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后接着我们再访问接口，发现结果如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e266dfcb46d4b2e9235179d00ad69db~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>响应结果抛出了一个状态码为<code>400</code>的错误，并且提示<code>price</code>必须为一个<code>number</code>类型。</p>
+<p><code>ValidationPipe</code>还可以进行参数的筛选，我们看下这个请求例子：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7b87d9872dd44d2fad7386cc5bb00b6e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>我们发现，请求参数多了一个<code>brand</code>属性，这个是在我们的<strong>数据传送对象</strong>中未定义的，但是仍然被接收到了，如果我们不想接收<strong>数据传送对象</strong>以外的参数的话，只需要进行如下配置即可：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">app.useGlobalPipes(
+    new ValidationPipe(&#123;
+      whitelist: true,
+    &#125;),
+  );<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接下来再次发送请求，发现多余的字段已经不存在了：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/885ef57a2b3c45f5bf7a1279bed57102~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p><code>ValidationPipe</code>的功能还不止于此，除了配合<strong>数据传送对象</strong>之外，他还可以将参数进行一个类型的转换，看一下之前的一个请求：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get(&#39;find&#39;)
+findById(@Query(&#39;id&#39;) id:number, @Res() res) &#123;
+    console.log(typeof id);
+    const data &#x3D; this.goodsService.findById(+id);
+    res.status(200).json(&#123;
+      code: 0,
+      data,
+    &#125;);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们这里传入<code>id</code>到服务中时，进行了一个类型的转换，为啥会这样呢？我们打印看一下<code>id</code>的参数就明白了，如下图：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1aaa78c8f5674c5780dbf278877e4740~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>即使我们对接收参数的类型进行了<code>number</code>的限制，但是依然获取到一个<code>string</code>类型的变量，这是因为通过浏览器地址中的参数本身就是<code>string</code>类型的。<br>现在，我们在<code>ValidationPipe</code>中进行如下配置：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">app.useGlobalPipes(
+  new ValidationPipe(&#123;
+    whitelist: true,
+    transform: true,
+  &#125;),
+);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着，再看一下请求时打印的参数信息：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/39e5a8dc01a0421f88453ba59738924c~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<blockquote>
+<p>注意：转换的功能会对应用产生轻微的影响</p>
+</blockquote>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><p>到现在为止，我们写的控制器、服务都是注册到<code>app.module</code>中的，而非一个单独的模块，如果对于一个复杂的应用来说，这种组织是不合理的。<br>所以现在我们新建一个<code>module</code>来存放这些文件，在终端输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g mo goods<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>可以看到在<code>src/goods</code>目录下多了一个<code>goods.module.ts</code>文件，打开该文件进行如下配置：</p>
+<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
+import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
+import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
+
+@Module(&#123;
+  controllers: [GoodsController], &#x2F;&#x2F; 引入的控制器
+  providers: [GoodsService], &#x2F;&#x2F; 注入的服务
+&#125;)
+export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着，再将<code>app.module.ts</code>里面引入的<code>GoodsController</code>和<code>GoodsService</code>删除掉，转而引入<code>GoodsModule</code>模块（脚手架工具创建的模块会自动引入）。</p>
+<p>这样，我们就叫一个独立的<code>goods</code>模块抽离出来了。</p>
+<h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>以上就是对<code>nest.js</code>的基础介绍。  </p>
+<p>大致从<strong>nest.js介绍</strong> -&gt; <strong>HelloWorld</strong> -&gt; <strong>请求和响应</strong> -&gt; <strong>服务</strong> -&gt; <strong>实体对象</strong> -&gt; <strong>数据传输对象</strong> -&gt; <strong>模块</strong> 进行了一个简单的讲解。</p>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2023/04/01/从0到1实现NestJS的服务端应用——基础篇/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B5%B7%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">起步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HelloWorld"><span class="toc-number">1.3.</span> <span class="toc-text">HelloWorld</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94"><span class="toc-number">1.4.</span> <span class="toc-text">请求和响应</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0"><span class="toc-number">1.4.2.</span> <span class="toc-text">添加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9"><span class="toc-number">1.4.3.</span> <span class="toc-text">修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4"><span class="toc-number">1.4.4.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94"><span class="toc-number">1.4.5.</span> <span class="toc-text">响应</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.5.</span> <span class="toc-text">服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.5.1.</span> <span class="toc-text">新建服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.5.2.</span> <span class="toc-text">编写服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.6.</span> <span class="toc-text">实体对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.7.</span> <span class="toc-text">数据传送对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BADTO"><span class="toc-number">1.7.1.</span> <span class="toc-text">创建DTO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ValidationPipe"><span class="toc-number">1.7.2.</span> <span class="toc-text">ValidationPipe</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-number">1.8.</span> <span class="toc-text">模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number">1.9.</span> <span class="toc-text">完结</span></a></li></ol></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/">从0到1实现NestJS的服务端应用——数据库篇</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2022/08/14/分享基于H5实现扫码功能/">分享基于H5实现扫码功能</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2023/04/01/从0到1实现NestJS的服务端应用——基础篇/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大噶好。唔系可乐爱宅着，欢迎你们来到我的博客小站，希望能在这里收获到有用的东西哦！ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+    <div class="operate-item turn-comment hidden">
+      <i class="iconfont icon-pinglun"></i>
+      <span>查看评论</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        console.log(_commentDom)
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"安河桥","artist":"宋冬野","url":"http://ting6.yymp3.net:82/new25/songdongye/11.mp3","cover":"https://img2.baidu.com/it/u=1260056724,1076343118&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"},{"name":"卡布达","artist":"暂无","url":"music/kabuda.mp3","cover":"https://img2.baidu.com/it/u=705831265,2862720033&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      if (/^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(location.pathname.replace(rootPath, ''))) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll()
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+      // $('.main-container').fadeIn()
+    })
+  </script>
+</body>
+</html>
