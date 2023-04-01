@@ -952,6 +952,7 @@ div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;z
 .tools-list li .tool-cover {
   width: 120px;
   height: 120px;
+  border: 1px solid #ccc;
   object-fit: cover;
   -o-object-fit: cover;
 }
