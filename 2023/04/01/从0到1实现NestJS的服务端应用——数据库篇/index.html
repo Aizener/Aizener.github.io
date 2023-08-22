@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   
   <title>我的技术与生活——从0到1实现NestJS的服务端应用——数据库篇 | Hexo</title>
+  <meta name="referrer" content="never">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="../../../../imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/public.css" />
@@ -193,7 +194,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
+  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -335,7 +336,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>410天</span>
+        <span>553天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -347,27 +348,7 @@
       <div id="main-container" class="main-container">
 
 
-  <style>
-pre::-webkit-scrollbar {
-  width: 5px;
-  height: 10px;
-  background-color:#F5F5F5;
-}
-/*定义滚动条轨道
-内阴影+圆角*/
-pre::-webkit-scrollbar-track {
-  background-color:#F5F5F5;
-}
-/*定义滑块
-内阴影+圆角*/
-pre::-webkit-scrollbar-thumb {
-  background-color: rgb(69, 83, 100);
-}
-
-pre:active {
-  background-color: rgb(81, 95, 116);
-}
-</style>
+  <link rel="stylesheet" href="../../../../css/partial/article.css" />
 
 <div class="article-container">
   <div class="article">
@@ -392,7 +373,7 @@ pre:active {
         <img src="https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" alt="" class="article-cover">
       </div>
     </div>
-    <article class="article-content">
+    <article class="article-content markdown-body">
       <h1 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h1><p>从这里开始，我们将对nest.js的对数据操作的基本应用做一个简单的讲解，主要是明白如何通过访问接口来进行增删改查的基本操作。</p>
 <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>这里我们使用的数据库是Mysql数据库，可以进入<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/">Mysql官方下载地址</a>按照自己的系统选择下载，目前我这里使用的版本图如下：</p>
 <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0658dbc61c724fdbaa4fe85f8ec089f9~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
@@ -410,25 +391,7 @@ pre:active {
 <li>点击<strong>OK</strong>进行连接，就完成了。</li>
 </ol>
 <p>在Navicat中测试连接成功后，我们就需要在<code>nest.js</code>来进行数据库的间接了，连接的代码如下所示：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; app.module.ts
-import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; TypeOrmModule &#125; from &#39;@nestjs&#x2F;typeorm&#39;;
-
-@Module(&#123;
-  imports: [
-    TypeOrmModule.forRoot(&#123;
-      type: &#39;mysql&#39;,
-      host: &#39;localhost&#39;,
-      port: 3306,
-      username: &#39;root&#39;,
-      password: &#39;password&#39;,
-      database: &#39;demo&#39;,
-      autoLoadEntities: true,
-      synchronize: true,
-    &#125;)
-  ]
-&#125;)
-export class AppModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.module.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">TypeOrmModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [</span><br><span class="line">    <span class="title class_">TypeOrmModule</span>.<span class="title function_">forRoot</span>(&#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;mysql&#x27;</span>,</span><br><span class="line">      <span class="attr">host</span>: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">      <span class="attr">port</span>: <span class="number">3306</span>,</span><br><span class="line">      <span class="attr">username</span>: <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">      <span class="attr">password</span>: <span class="string">&#x27;password&#x27;</span>,</span><br><span class="line">      <span class="attr">database</span>: <span class="string">&#x27;demo&#x27;</span>,</span><br><span class="line">      <span class="attr">autoLoadEntities</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">synchronize</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>type: 表示要连接的数据库类型，因为TypeORM支持多种数据库；</li>
 <li>host：连接的目标主机号，我们是本地的服务，所以是localhost；</li>
@@ -445,66 +408,14 @@ export class AppModule &#123;&#125;<span aria-hidden="true" class="line-numbers-
 <p>完成以上配置后，执行<code>npm run start:dev</code>启动服务，没有报错的话，就表示数据库已经连接成功了。</p>
 <h2 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h2><p>还记得之前建立的商品实体对象嘛？当时，这个对象就仅仅当做类型来使用了一下，并没有其他用处。但是，在我们是使用<code>TypeORM</code>后，我们就可以让实体类和数据库进行一个映射关系。  </p>
 <h3 id="关联实体"><a href="#关联实体" class="headerlink" title="关联实体"></a>关联实体</h3><p>现在，先来改造一下实体类，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123;
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-&#125; from &#39;typeorm&#39;;
-import &#123; Keywords &#125; from &#39;.&#x2F;keywords.entity&#39;;
-
-@Entity()
-export class Goods &#123;
-  @PrimaryGeneratedColumn()
-  id: number;
-  
-  @Column()
-  name: string;
-
-  @Column(&#123;
-    type: Number,
-  &#125;)
-  price: number;
-  
-  @Column()
-  brand: string;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  <span class="title class_">Column</span>,</span><br><span class="line">  <span class="title class_">Entity</span>,</span><br><span class="line">  <span class="title class_">JoinTable</span>,</span><br><span class="line">  <span class="title class_">ManyToMany</span>,</span><br><span class="line">  <span class="title class_">PrimaryGeneratedColumn</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Keywords</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./keywords.entity&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Goods</span> &#123;</span><br><span class="line">  <span class="meta">@PrimaryGeneratedColumn</span>()</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Column</span>()</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="title class_">Number</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="attr">price</span>: <span class="built_in">number</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Column</span>()</span><br><span class="line">  <span class="attr">brand</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在上面的实体类代码中，我们通过<code>@Entity()</code>装饰器修饰了该实体，并且通过<code>@Column()</code>装饰器装饰每个字段，其中比较特殊的是<code>@PrimaryGeneratedColumn()</code>，这个装饰器表示修饰的该字段是一个自增主键。</p>
 <p>当实体类改造完毕以后，我们就需要在<code>goods.service</code>中注入存储库对象，这个对象就是用来操作数据库的。在注入存储库之前，我们得先做一个操作，就是需要在<code>goods.module</code>中进行注册，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; TypeOrmModule &#125; from &#39;@nestjs&#x2F;typeorm&#39;;
-import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
-import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
-import &#123; Goods &#125; from &#39;.&#x2F;entities&#x2F;goods.entity&#39;;
-
-@Module(&#123;
-  imports: [TypeOrmModule.forFeature([Goods])],
-  controllers: [GoodsController],
-  providers: [GoodsService],
-&#125;)
-export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">TypeOrmModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">GoodsController</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./goods.controller&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">GoodsService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./goods.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Goods</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./entities/goods.entity&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [<span class="title class_">TypeOrmModule</span>.<span class="title function_">forFeature</span>([<span class="title class_">Goods</span>])],</span><br><span class="line">  <span class="attr">controllers</span>: [<span class="title class_">GoodsController</span>],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">GoodsService</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 
 <p>如果操作一切正确，打开<code>Navicat</code>我们就能发现多了一张<code>goods</code>表了！</p>
 <h3 id="注入存储库"><a href="#注入存储库" class="headerlink" title="注入存储库"></a>注入存储库</h3><p>通过<code>TypeOrmModule.forFeature([Goods])</code>该方法后，就实现了存储库的注册，现在我们在<code>goods.service</code>进行注入，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; UpdateGoodsDto &#125; from &#39;.&#x2F;dto&#x2F;update-goods.dto&#39;;
-import &#123; CreateGoodsDto &#125; from &#39;.&#x2F;dto&#x2F;create-goods.dto&#39;;
-import &#123; Goods &#125; from &#39;.&#x2F;entities&#x2F;goods.entity&#39;;
-import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; InjectRepository &#125; from &#39;@nestjs&#x2F;typeorm&#39;;
-import &#123; Repository &#125; from &#39;typeorm&#39;;
-
-@Injectable()
-export class GoodsService &#123;
-  constructor(
-    @InjectRepository(Goods)
-    private readonly goodsRepositroy: Repository&lt;Goods&gt;,
-  ) &#123;&#125;
-
-  async findGoodsById(id: number) &#123;
-    return await this.goodsRepositroy.findOneBy(&#123; id &#125;);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UpdateGoodsDto</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./dto/update-goods.dto&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">CreateGoodsDto</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./dto/create-goods.dto&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Goods</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./entities/goods.entity&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">InjectRepository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Repository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsService</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="meta">@InjectRepository</span>(Goods)</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> goodsRepositroy: Repository&lt;Goods&gt;,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">findGoodsById</span>(<span class="params">id: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">goodsRepositroy</span>.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到，在构造函数中我们定义了一个通过<code>@InjectRepository(Goods)</code>装饰器修饰的<code>goodsRepository</code>对象，通过该对象我们就可以操作数据库了。  </p>
 <p>在下面的<code>findGoodsById</code>方法中，就通过了<code>findOneBy(&#123; id &#125;)</code>方法对数据库进行了一个条件的查询，现在我通过<code>Navigate</code>工具手动添加一条数据：</p>
 <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2090b7a0f5c246af96cf8b130722ddfb~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
@@ -520,30 +431,9 @@ export class GoodsService &#123;
 </ul>
 <h3 id="表之间关联"><a href="#表之间关联" class="headerlink" title="表之间关联"></a>表之间关联</h3><p>之前我们定义<code>Goods</code>实体的时候使用<code>keywords</code>属性来存放关键字，但实际上关键字作为一个实体更合理。现在我们以<code>Keywords</code>来新建另一个实体，并且让<code>Goods</code>和<code>Keywords</code>来进行一个关联。</p>
 <p>新建<code>Keywords</code>实体类文件，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Goods &#125; from &#39;.&#x2F;goods.entity&#39;;
-import &#123; Column, Entity, ManyToMany, PrimaryGeneratedColumn &#125; from &#39;typeorm&#39;;
-
-@Entity()
-export class Keywords &#123;
-  @PrimaryGeneratedColumn()
-  id: number;
-  
-  @Column()
-  name: string;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Goods</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./goods.entity&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Column</span>, <span class="title class_">Entity</span>, <span class="title class_">ManyToMany</span>, <span class="title class_">PrimaryGeneratedColumn</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Keywords</span> &#123;</span><br><span class="line">  <span class="meta">@PrimaryGeneratedColumn</span>()</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Column</span>()</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当程序编译完成，数据库中多了一张<code>keywords</code>表，接下来我们就需要把<code>Keywords</code>和<code>Goods</code>实体关联起来。<br>不难知道，商品和关键字的关系是多对多的关系，因为一个关键字可以对应多个商品，一个商品也可以拥有多个关键字，所以这里我们需要<code>TypeORM</code>提供的<code>@ManyToMany()</code>装饰器来修饰，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.entity.ts
-@JoinTable()
-@ManyToMany((type) &#x3D;&gt; Keywords, (keywords) &#x3D;&gt; keywords.goods, &#123;
-  cascade: true,
-&#125;)
-keywords: Keywords[];
-
-&#x2F;&#x2F; keywords.entity.ts
-@ManyToMany((type) &#x3D;&gt; Goods, (goods) &#x3D;&gt; goods.keywords, &#123;
-  cascade: true,
-&#125;)
-goods: Goods[];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// goods.entity.ts</span></span><br><span class="line"><span class="meta">@JoinTable</span>()</span><br><span class="line"><span class="meta">@ManyToMany</span>(<span class="function">(<span class="params"><span class="keyword">type</span></span>) =&gt;</span> <span class="title class_">Keywords</span>, <span class="function">(<span class="params">keywords</span>) =&gt;</span> keywords.<span class="property">goods</span>, &#123;</span><br><span class="line">  <span class="attr">cascade</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="attr">keywords</span>: <span class="title class_">Keywords</span>[];</span><br><span class="line"></span><br><span class="line"><span class="comment">// keywords.entity.ts</span></span><br><span class="line"><span class="meta">@ManyToMany</span>(<span class="function">(<span class="params"><span class="keyword">type</span></span>) =&gt;</span> <span class="title class_">Goods</span>, <span class="function">(<span class="params">goods</span>) =&gt;</span> goods.<span class="property">keywords</span>, &#123;</span><br><span class="line">  <span class="attr">cascade</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="attr">goods</span>: <span class="title class_">Goods</span>[];</span><br></pre></td></tr></table></figure>
 
 <p>现在来说明一下上面代码的意思：</p>
 <ul>
@@ -559,25 +449,7 @@ goods: Goods[];<span aria-hidden="true" class="line-numbers-rows"><span></span><
 <p>注意：多对多关系会生成三张表，多出来的那一张是中间表，记录两个表数据的对应关系。</p>
 </blockquote>
 <p>完成以上步骤后，我们现在尝试进行数据的保存，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.service.ts
-async addGoods(createGoodsDto: CreateGoodsDto) &#123;
-    const keywords &#x3D; await Promise.all(
-      createGoodsDto.keywords.map((item) &#x3D;&gt; this.preloadKeywordsByName(item)),
-    );
-    const goods &#x3D; this.goodsRepositroy.create(&#123;
-      ...createGoodsDto,
-      keywords,
-    &#125;);
-    return await this.goodsRepositroy.save(goods);
-&#125;
-
-private async preloadKeywordsByName(name: string) &#123;
-    const keywords &#x3D; await this.keywordsRepository.findOneBy(&#123; name &#125;);
-    if (keywords) &#123;
-      return keywords;
-    &#125;
-    return this.keywordsRepository.create(&#123; name &#125;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// goods.service.ts</span></span><br><span class="line"><span class="keyword">async</span> <span class="title function_">addGoods</span>(<span class="params">createGoodsDto: CreateGoodsDto</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> keywords = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">all</span>(</span><br><span class="line">      createGoodsDto.<span class="property">keywords</span>.<span class="title function_">map</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> <span class="variable language_">this</span>.<span class="title function_">preloadKeywordsByName</span>(item)),</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">const</span> goods = <span class="variable language_">this</span>.<span class="property">goodsRepositroy</span>.<span class="title function_">create</span>(&#123;</span><br><span class="line">      ...createGoodsDto,</span><br><span class="line">      keywords,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">goodsRepositroy</span>.<span class="title function_">save</span>(goods);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">async</span> <span class="title function_">preloadKeywordsByName</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> keywords = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">keywordsRepository</span>.<span class="title function_">findOneBy</span>(&#123; name &#125;);</span><br><span class="line">    <span class="keyword">if</span> (keywords) &#123;</span><br><span class="line">      <span class="keyword">return</span> keywords;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">keywordsRepository</span>.<span class="title function_">create</span>(&#123; name &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面我们通过顶一个<code>preloadKeywordsByName</code>方法来根据关键字名称来加载实体：</p>
 <ol>
 <li>表中存在关键字，存在直接返回该实体；</li>
@@ -591,60 +463,21 @@ private async preloadKeywordsByName(name: string) &#123;
 <p>好的，我们再进行查询，结果如图：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a540c16b5e65491da42e0b8d1b3d526d~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>发现，没有<code>keywords</code>关键字，这是因为当我们查询时，如果需要查询出关联的表的话，需要加上<code>relations</code>参数来指定关联，如下所示：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">async findGoodsById(id: number) &#123;
-  return await this.goodsRepositroy.findOne(&#123;
-    relations: [&#39;keywords&#39;],
-    where: &#123; id &#125;,
-  &#125;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">findGoodsById</span>(<span class="params">id: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">goodsRepositroy</span>.<span class="title function_">findOne</span>(&#123;</span><br><span class="line">    <span class="attr">relations</span>: [<span class="string">&#x27;keywords&#x27;</span>],</span><br><span class="line">    <span class="attr">where</span>: &#123; id &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>通过添加<code>relations</code>关联后，我们再进行查询，可以发现<code>keywords</code>对应的信息也出现了，如下图：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/938d8f37900a4bf6aaf88e968b55c33b~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><p>查询数据的时候，一般都会进行分页的一个筛选查询，否则当数据量大的时候，全部查询出来的效率是比较低的，也是不好处理的。</p>
 <p>进行分页查询需要用到两个参数，一个是<code>skip</code>表示跳过的记录数，另一个是<code>take</code>表示需要查询的记录数量，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">async findAll(paginationQueryDto: PaginationQueryDto) &#123;
-    const &#123; page, size &#125; &#x3D; paginationQueryDto;
-    return this.goodsRepositroy.find(&#123;
-      skip: (page - 1) * size,
-      take: size,
-    &#125;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">findAll</span>(<span class="params">paginationQueryDto: PaginationQueryDto</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; page, size &#125; = paginationQueryDto;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goodsRepositroy</span>.<span class="title function_">find</span>(&#123;</span><br><span class="line">      <span class="attr">skip</span>: (page - <span class="number">1</span>) * size,</span><br><span class="line">      <span class="attr">take</span>: size,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们通过上面的方式，来实现根据页数来查询对应数量的记录，尝试调接口看一看返回，如图：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4b92fcb062c04fbcacdcc75b16e683ce~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5f2da18d7df1497ca1900a378a0f40dd~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>结果发现，数据是能够分页信息查询出来的！</p>
 <h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>当我们在做某个功能的时候，可能需要操作多次数据库，有可能在其中的某一次操作中会发生异常导致失败。但此时，成功的操作也无法逆转，导致数据出现问题。<br>此时，我们就需要通过事务来解决这个问题。简单说，事务就是保证多次操作数据库时的一致性，要么都成功，要么都失败。</p>
 <p>使用事务时，我们需要通过注入的方式来引用，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Injectable()
-export class GoodsService &#123;
-  constructor(
-    @InjectRepository(Goods)
-    private readonly goodsRepositroy: Repository&lt;Goods&gt;,
-    @InjectRepository(Keywords)
-    private readonly keywordsRepository: Repository&lt;Keywords&gt;,
-    private readonly dataSource: DataSource,
-  ) &#123;&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsService</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="meta">@InjectRepository</span>(Goods)</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> goodsRepositroy: Repository&lt;Goods&gt;,</span></span><br><span class="line"><span class="params">    <span class="meta">@InjectRepository</span>(Keywords)</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> keywordsRepository: Repository&lt;Keywords&gt;,</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> dataSource: DataSource,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中，<code>private readonly dataSource: DataSource</code>定义了一个数据源对象，这个对象不用通过装饰器来装饰也能被<code>nest.js</code>给我们进行管理。<br>接着，我们再来看看执行事务的代码，如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">async recommendGoods(id: number) &#123;
-    const queryRunner &#x3D; this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try &#123;
-      const goods &#x3D; await this.goodsRepositroy.findOneBy(&#123; id &#125;);
-      goods.recommend++;
-      const recommentEvent &#x3D; new Event();
-      recommentEvent.name &#x3D; &#39;recommend_goods&#39;;
-      recommentEvent.type &#x3D; &#39;goods&#39;;
-      recommentEvent.payload &#x3D; &#123; goodsId: goods.id &#125;;
-      await queryRunner.manager.save(goods);
-      await queryRunner.manager.save(recommentEvent);
-      await queryRunner.commitTransaction();
-    &#125; catch (err) &#123;
-      await queryRunner.rollbackTransaction();
-    &#125; finally &#123;
-      await queryRunner.release();
-    &#125;
-  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">recommendGoods</span>(<span class="params">id: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> queryRunner = <span class="variable language_">this</span>.<span class="property">dataSource</span>.<span class="title function_">createQueryRunner</span>();</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">connect</span>();</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">startTransaction</span>();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> goods = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">goodsRepositroy</span>.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line">      goods.<span class="property">recommend</span>++;</span><br><span class="line">      <span class="keyword">const</span> recommentEvent = <span class="keyword">new</span> <span class="title class_">Event</span>();</span><br><span class="line">      recommentEvent.<span class="property">name</span> = <span class="string">&#x27;recommend_goods&#x27;</span>;</span><br><span class="line">      recommentEvent.<span class="property">type</span> = <span class="string">&#x27;goods&#x27;</span>;</span><br><span class="line">      recommentEvent.<span class="property">payload</span> = &#123; <span class="attr">goodsId</span>: goods.<span class="property">id</span> &#125;;</span><br><span class="line">      <span class="keyword">await</span> queryRunner.<span class="property">manager</span>.<span class="title function_">save</span>(goods);</span><br><span class="line">      <span class="keyword">await</span> queryRunner.<span class="property">manager</span>.<span class="title function_">save</span>(recommentEvent);</span><br><span class="line">      <span class="keyword">await</span> queryRunner.<span class="title function_">commitTransaction</span>();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">      <span class="keyword">await</span> queryRunner.<span class="title function_">rollbackTransaction</span>();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="keyword">await</span> queryRunner.<span class="title function_">release</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p>上面，我们通过<code>dataSource</code>对象创建了一个<code>QueryRunner</code>对象，通过该对象我们就可以建立连接，并手动控制事务的状态。</p>
 <ul>
 <li>startTransaction()： 开启事务；</li>
@@ -654,62 +487,29 @@ export class GoodsService &#123;
 </ul>
 <h3 id="数据迁移"><a href="#数据迁移" class="headerlink" title="数据迁移"></a>数据迁移</h3><p>数据迁移的作用在于，当我们可能需要修改表结构时：如果直接通过修改实体类的话，会导致表里面的数据造成丢失；所以需要通过数据迁移文件来操作数据库，进而达到修改表结构的目的。</p>
 <p>现在，我们通过<code>TypeORM CLI</code>来创建一个数据迁移的文件，输入以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npx typeorm migration:create src&#x2F;migrations&#x2F;KeywordsRefactor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx typeorm migration:create src/migrations/KeywordsRefactor</span><br></pre></td></tr></table></figure>
 <p>执行该命令后，在我们的<code>src/migrations</code>目录下就会生成一个<code>&#123;timestamp&#125;-KeywordsRefactor.ts</code>的文件（timestamp表示自动生成的时间戳），进入该文件发下以下内容：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; MigrationInterface, QueryRunner &#125; from &#39;typeorm&#39;;
-
-export class KeywordsRefactor1678969889283 implements MigrationInterface &#123;
-  public async up(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;&#125;
-
-  public async down(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">MigrationInterface</span>, <span class="title class_">QueryRunner</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">KeywordsRefactor1678969889283</span> <span class="keyword">implements</span> <span class="title class_">MigrationInterface</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">async</span> <span class="title function_">up</span>(<span class="attr">queryRunner</span>: <span class="title class_">QueryRunner</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">async</span> <span class="title function_">down</span>(<span class="attr">queryRunner</span>: <span class="title class_">QueryRunner</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>其中，<code>up</code>方法表示迁移所需要执行的<code>sql</code>代码；而<code>down</code>表示迁移失败之后，需要回复<code>up</code>操作的方法。<br>例如，我们这里将<code>keywords</code>表的<code>name</code>字段改为<code>title</code>字段，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; MigrationInterface, QueryRunner &#125; from &#39;typeorm&#39;;
-
-export class KeywordsRefactor1678969889283 implements MigrationInterface &#123;
-  public async up(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;
-    queryRunner.query(&#96;
-      ALTER TABLE keywords CHANGE name title varchar(255);
-    &#96;);
-  &#125;
-
-  public async down(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;
-    queryRunner.query(&#96;
-      ALTER TABLE keywords CHANGE title name varchar(255);
-    &#96;);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">MigrationInterface</span>, <span class="title class_">QueryRunner</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">KeywordsRefactor1678969889283</span> <span class="keyword">implements</span> <span class="title class_">MigrationInterface</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">async</span> <span class="title function_">up</span>(<span class="attr">queryRunner</span>: <span class="title class_">QueryRunner</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">    queryRunner.<span class="title function_">query</span>(<span class="string">`</span></span><br><span class="line"><span class="string">      ALTER TABLE keywords CHANGE name title varchar(255);</span></span><br><span class="line"><span class="string">    `</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">async</span> <span class="title function_">down</span>(<span class="attr">queryRunner</span>: <span class="title class_">QueryRunner</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">    queryRunner.<span class="title function_">query</span>(<span class="string">`</span></span><br><span class="line"><span class="string">      ALTER TABLE keywords CHANGE title name varchar(255);</span></span><br><span class="line"><span class="string">    `</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在执行迁移之前，我们还需要创建一个<code>db.config.ts</code>配置文件，内容如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; DataSource &#125; from &#39;typeorm&#39;;
-
-const AppDataSource &#x3D; new DataSource(&#123;
-  type: &#39;mysql&#39;,
-  host: &#39;localhost&#39;,
-  port: 3306,
-  username: &#39;root&#39;,
-  password: &#39;&#39;,
-  database: &#39;demo&#39;,
-  entities: [&#39;dist&#x2F;**&#x2F;*.entity.js&#39;],
-  migrations: [&#39;dist&#x2F;**&#x2F;migrations&#x2F;*.js&#39;],
-&#125;);
-
-export default AppDataSource;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">DataSource</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">AppDataSource</span> = <span class="keyword">new</span> <span class="title class_">DataSource</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;mysql&#x27;</span>,</span><br><span class="line">  <span class="attr">host</span>: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">  <span class="attr">port</span>: <span class="number">3306</span>,</span><br><span class="line">  <span class="attr">username</span>: <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">  <span class="attr">password</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">database</span>: <span class="string">&#x27;demo&#x27;</span>,</span><br><span class="line">  <span class="attr">entities</span>: [<span class="string">&#x27;dist/**/*.entity.js&#x27;</span>],</span><br><span class="line">  <span class="attr">migrations</span>: [<span class="string">&#x27;dist/**/migrations/*.js&#x27;</span>],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">AppDataSource</span>;</span><br></pre></td></tr></table></figure>
 <p>配置就和建立数据库连接时的配置基本一样，只是多了两个字段：</p>
 <ul>
 <li>entities：表示实体类的存储位置；</li>
 <li>migrations：表示迁移文件的存储位置；</li>
 </ul>
 <p>因为这里我们迁移过程是根据打包后的<code>dist</code>目录来识别的，所以在迁移之前先进行<code>build</code>构建，执行命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
 <p>当生成好<code>dist</code>目录后，我们就可以进行迁移命令了：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npx typeorm-ts-node-esm migration:run -d db.config.ts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx typeorm-ts-node-esm migration:run -d db.config.ts</span><br></pre></td></tr></table></figure>
 <p>看到终端提示如下信息的话，就表明迁移已经成功了：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c0a0d1b3d1f945e1a8d041d5940662b2~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>并且数据库里面<code>keywords</code>表的字段也已经被修改了：</p>
 <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d700694b5ffe4b52af9f3376231a5f9b~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>此时，如果我们执行下面命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npx typeorm-ts-node-esm migration:revert -d db.config.ts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx typeorm-ts-node-esm migration:revert -d db.config.ts</span><br></pre></td></tr></table></figure>
 <p>再次查看<code>keywords</code>表结构，发现字段名称又被改回去了：</p>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7efe62a2080b4029bd0ae7c830736291~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <blockquote>
@@ -759,7 +559,6 @@ export default AppDataSource;<span aria-hidden="true" class="line-numbers-rows">
   </div>
 </div>
 
-<script src="http://cdn.yangxiang.cc/prism.js"></script>
 
 <script>
   // var定义，避免pjax重新进来造成的重复声明错误
@@ -849,10 +648,8 @@ export default AppDataSource;<span aria-hidden="true" class="line-numbers-rows">
         const newDom = operateDom.cloneNode(true);
         const _backtopDom = newDom.querySelector('.backtop');
         const _commentDom = newDom.querySelector('.turn-comment');
-        console.log(_commentDom)
         _backtopDom.addEventListener('click', () => backTopEvent());
         _commentDom.addEventListener('click', () => commentDomEvent());
-
         cateloguDom.appendChild(newDom);
       } else {
         commentDom.classList.add('hidden')
@@ -919,7 +716,11 @@ export default AppDataSource;<span aria-hidden="true" class="line-numbers-rows">
     const rootPath = "/"
 
     const checkAndSetArticlePageLayout = () => {
-      if (/^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(location.pathname.replace(rootPath, ''))) {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
         $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
       } else {
         $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
@@ -946,7 +747,6 @@ export default AppDataSource;<span aria-hidden="true" class="line-numbers-rows">
         $('#container').slideToggle()
         setTimeout(() => {
           initScroll();
-          window.loadImageFn();
         }, 500)
       }, 500)
     }
@@ -972,8 +772,7 @@ export default AppDataSource;<span aria-hidden="true" class="line-numbers-rows">
     $(document).on('pjax:popstate', function() {
       status = -1
       checkAndSetArticlePageLayout()
-      // $('.main-container').fadeIn()
-    })
+    });
   </script>
 </body>
 </html>

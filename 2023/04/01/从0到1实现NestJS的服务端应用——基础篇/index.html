@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   
   <title>我的技术与生活——从0到1实现NestJS的服务端应用——基础篇 | Hexo</title>
+  <meta name="referrer" content="never">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="../../../../imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/public.css" />
@@ -193,7 +194,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
+  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -335,7 +336,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>410天</span>
+        <span>553天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -347,27 +348,7 @@
       <div id="main-container" class="main-container">
 
 
-  <style>
-pre::-webkit-scrollbar {
-  width: 5px;
-  height: 10px;
-  background-color:#F5F5F5;
-}
-/*定义滚动条轨道
-内阴影+圆角*/
-pre::-webkit-scrollbar-track {
-  background-color:#F5F5F5;
-}
-/*定义滑块
-内阴影+圆角*/
-pre::-webkit-scrollbar-thumb {
-  background-color: rgb(69, 83, 100);
-}
-
-pre:active {
-  background-color: rgb(81, 95, 116);
-}
-</style>
+  <link rel="stylesheet" href="../../../../css/partial/article.css" />
 
 <div class="article-container">
   <div class="article">
@@ -392,19 +373,19 @@ pre:active {
         <img src="https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800" alt="" class="article-cover">
       </div>
     </div>
-    <article class="article-content">
+    <article class="article-content markdown-body">
       <h1 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h1><p>从这里开始，我们将对nest.js的一个基本应用做一个简单的讲解，包含安装和基本概念的介绍以及简单应用。</p>
 <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Nest (NestJS) 是一个用于构建高效、可扩展的 <a target="_blank" rel="noopener" href="https://nodejs.org/">Node.js</a> 服务器端应用程序的开发框架。它利用 JavaScript 的渐进增强的能力，使用并完全支持 <a target="_blank" rel="noopener" href="http://www.typescriptlang.org/">TypeScript</a> （仍然允许开发者使用纯 JavaScript 进行开发），并结合了 OOP （面向对象编程）、FP （函数式编程）和 FRP （函数响应式编程）。</p>
 <p>在底层，Nest 构建在强大的 HTTP 服务器框架上，例如 <a target="_blank" rel="noopener" href="https://expressjs.com/">Express</a> （默认），并且还可以通过配置从而使用 <a target="_blank" rel="noopener" href="https://github.com/fastify/fastify">Fastify</a> ！</p>
 <p>Nest 在这些常见的 Node.js 框架 (Express&#x2F;Fastify) 之上提高了一个抽象级别，但仍然向开发者直接暴露了底层框架的 API。这使得开发者可以自由地使用适用于底层平台的无数的第三方模块。</p>
 <p>– 摘自官网</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>首先，我们需要安装<code>nest</code>提供的脚手架工具，进入终端输入以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm i -g @nestjs&#x2F;cli<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g @nestjs/cli</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后，执行<code>nest -v</code>命令，看到终端显示版本号后就表示安装成功，如下图：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c26b9f5e484f4a6b987abeadf6c4f209~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>当我们完成<code>nest</code>脚手架的安装后，就可以进行项目的创建了，如下所示，我们这里创建一个项目名为<code>hello</code>的<code>nest</code>应用：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest new hello-word<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest new hello-word</span><br></pre></td></tr></table></figure>
 <p>执行完成命名后，看到如下界面就表示项目新建成功了：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e53c81a2f0645658531859eac0534ed~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>安装完成后，使用VSCode编辑打开项目后，我们主要注意<code>src</code>目录下面的文件，可以发现在<code>src</code>目录下有5个默认的文件，如下图：</p>
@@ -418,77 +399,33 @@ pre:active {
 <li>main.ts：这是nest项目的入口文件</li>
 </ul>
 <p>首先，打开<code>main.ts</code>可以发现以下内容：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; NestFactory &#125; from &#39;@nestjs&#x2F;core&#39;;
-import &#123; AppModule &#125; from &#39;.&#x2F;app.module&#39;;
-
-async function bootstrap() &#123;
-  const app &#x3D; await NestFactory.create(AppModule);
-  await app.listen(3000);
-&#125;
-bootstrap();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">NestFactory</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/core&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.module&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">bootstrap</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> app = <span class="keyword">await</span> <span class="title class_">NestFactory</span>.<span class="title function_">create</span>(<span class="title class_">AppModule</span>);</span><br><span class="line">  <span class="keyword">await</span> app.<span class="title function_">listen</span>(<span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">bootstrap</span>();</span><br></pre></td></tr></table></figure>
 <p>可以看到内容十分简单，就是引入根模块文件<code>app.module</code>然后通过<code>NestFactory</code>这个对象创建一个应用程序，并且监听端口<code>3000</code>来启动服务。</p>
 <p>再看<code>app.module.ts</code>文件，可以发现该模块通过装饰器语法来对<code>app.controller</code>和<code>app.service</code>进行了一个依赖，如下图：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; AppController &#125; from &#39;.&#x2F;app.controller&#39;;
-import &#123; AppService &#125; from &#39;.&#x2F;app.service&#39;;
-
-@Module(&#123;
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
-&#125;)
-export class AppModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppController</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.controller&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.service&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [],</span><br><span class="line">  <span class="attr">controllers</span>: [<span class="title class_">AppController</span>],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">AppService</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>接着，我们再进入<code>app.controller</code>文件里面看看该控制器里面有什么内容，文件代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Controller, Get &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; AppService &#125; from &#39;.&#x2F;app.service&#39;;
-
-@Controller()
-export class AppController &#123;
-  constructor(private readonly appService: AppService) &#123;&#125;
-
-  @Get()
-  getHello(): string &#123;
-    return this.appService.getHello();
-  &#125;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Controller</span>, <span class="title class_">Get</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.service&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppController</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> <span class="keyword">readonly</span> appService: AppService</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>()</span><br><span class="line">  <span class="title function_">getHello</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">appService</span>.<span class="title function_">getHello</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>可以看到该文件定义了一个构造函数，并且通过形参的方式接收了一个<code>AppService</code>对象，然后再名为<code>getHello</code>的路由里面，调用了该服务的<code>getHello</code>方法，并且将结果值进行返回。</p>
 <blockquote>
 <p>这里讲解一下控制器和路由的基本概念<br>控制器是作为应用接受特定请求的一个类，而路由则是决定控制器可以接受哪些请求的方法。在nest.js应用中，控制器由@Controller()定义，路由由@Get()、@Post()等定义。  </p>
 </blockquote>
 <p>打开<code>app.service</code>文件，可以发现就是一个通过装饰器定义了的类，如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-@Injectable()
-export class AppService &#123;
-  getHello(): string &#123;
-    return &#39;Hello World!&#39;;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppService</span> &#123;</span><br><span class="line">  <span class="title function_">getHello</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello World!&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们先不管这些装饰器和构造函数等的用法，通过代码可以知道在基本控制器中：<strong>定义了一个路由，并且该路由调用了服务里面的<code>getHello</code>方法，然后将结果值<code>Hello World!</code>进行返回。</strong></p>
 <p>接下来，就通过执行命令来启动服务看一下效果，执行以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm run start:dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run start:dev</span><br></pre></td></tr></table></figure>
 <p>然后打开浏览器，在地址栏输入：<code>http://localhost:3000</code>后，可以看到页面和我们推论一样，输出的一个<code>HelloWorld</code>的字符串，如下图：</p>
 <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b6fe061e02b44318a7405cb4f2109aa8~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>至此，我们就已经通过这个默认的<code>HelloWorld</code>的例子认识了<code>nset.js</code>应用了，接下来我们就来创建一个自己的控制器和对应的路由来学习如何进行接口请求和响应。</p>
 <h2 id="请求和响应"><a href="#请求和响应" class="headerlink" title="请求和响应"></a>请求和响应</h2><p>现在，我们有一个业务：通过访问接口地址来完成商品的添加修改删除和查看。</p>
 <p>好，现在就开始新建一个命名为<code>goods</code>的控制器，输入以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g co goods --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest g co goods --no-spec</span><br></pre></td></tr></table></figure>
 <p>执行完成后，可以发现在<code>src</code>目录下给我们生成了一个<code>goods</code>目录，并且在<code>goods</code>目录下面还会有一个<code>goods.controller.ts</code>文件，这个就是我们编写控制器逻辑的文件。</p>
 <blockquote>
 <p>nest g co co_name表示使用nest脚手架的功能新建一个控制器，g表示生成，co表示控制器，co_name就是对应的名称。<br>如果没有加–no-spec参数的话，还会生成一个goods.controller.spec.ts的测试文件<br>注意：通过该方式生成的控制器，会自动的添加到app.module.ts模块中去，而不需要我们去手动引入。</p>
 </blockquote>
 <h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><p>好，接下来我们就要写查看的接口了，通常查询是一个<code>GET</code>方式的请求，所以这里我们使用<code>nestjs</code>提供的<code>@Get()</code>装饰器来定义一个路由，并且返回商品信息，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Controller, Get &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  private goods &#x3D; [];  &#x2F;&#x2F; 没有数据库，暂时通过该方式定义数据
-  @Get()
-  findAll() &#123;
-    return this.goods;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Controller</span>, <span class="title class_">Get</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> goods = [];  <span class="comment">// 没有数据库，暂时通过该方式定义数据</span></span><br><span class="line">  <span class="meta">@Get</span>()</span><br><span class="line">  <span class="title function_">findAll</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到上面，我们通过<code>@Get</code>装饰器来修饰<code>findAll</code>方法，然后返回了我们已经定义好了的<code>goods</code>数据，接下来通过请求：<code>http://localhost:/goods</code>接口，返回结果如下：</p>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/926241972bcb44e9be245e6f7eab0a7e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>可以看到，请求成功，并且在响应里面返回了我们一个空数组<code>[]</code>对象，这是因为我们目前的<code>goods</code>就是一个空数组对象。</p>
@@ -496,18 +433,7 @@ export class GoodsController &#123;
 <p>补充说明：这里GoodsController通过@Controller(‘goods’)装饰之后，所有的路由路径都会拼上<code>/goods</code>这个前缀。</p>
 </blockquote>
 <h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><p>好的，现在查看已经实现了，但是苦于没有数据，所以这里我们就先来完成如何添加一条数据，因为添加一般采用的都是<code>POST</code>方式进行的，所以我们这里采用<code>@Post()</code>装饰器来定义一个路由，实现<code>POST请求</code>的参数接收。<br>在编写添加逻辑之前，我们先看看如何接收<code>POST</code>请求的参数，代码如下：  </p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Body, Controller, Get, Post &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  private goods &#x3D; [];
-  &#x2F;&#x2F; Get...
-
-  @Post()
-  addGoods(@Body() goods) &#123;
-    console.log(goods);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Body</span>, <span class="title class_">Controller</span>, <span class="title class_">Get</span>, <span class="title class_">Post</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> goods = [];</span><br><span class="line">  <span class="comment">// Get...</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Post</span>()</span><br><span class="line">  <span class="title function_">addGoods</span>(<span class="params"><span class="meta">@Body</span>() goods</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(goods);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以发现这里使用的是<code>nestjs</code>提供的<code>@Body()</code>装饰器来实现<code>POST</code>请求参数接收的，现在我们打印一下数据看看<code>goods</code>是一个什么样的数据，如下：</p>
 <p>这是请求接口携带的参数：</p>
@@ -515,57 +441,11 @@ export class GoodsController &#123;
 <p>这是终端输出的<code>goods</code>对象：</p>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/665c2f8823594aeab8ca6caf838f0355~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>知道如何接收参数后，我们就不难写出添加商品的代码了。这里，我们先将商品的类型做了一个简单的类型定义，然后通过<code>@Post</code>装饰器定义<code>addGoods</code>这个<code>POST</code>方式的路由，并且在代码块里面将传入的数据进行了添加如下所示：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Body, Controller, Get, Post &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-type Goods &#x3D; &#123;
-  id: number;
-  name: string;
-  price: number;
-  keywords: string[];
-&#125;;
-
-@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  private goods: Array&lt;Goods&gt; &#x3D; [];
-  @Get()
-  findAll() &#123;
-    return this.goods;
-  &#125;
-
-  @Post()
-  addGoods(@Body() goods: Goods) &#123;
-    this.goods.push(&#123;
-      id: this.goods.length + 1,
-      ...goods,
-    &#125;);
-    return this.goods;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Body</span>, <span class="title class_">Controller</span>, <span class="title class_">Get</span>, <span class="title class_">Post</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Goods</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">price</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">keywords</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">goods</span>: <span class="title class_">Array</span>&lt;<span class="title class_">Goods</span>&gt; = [];</span><br><span class="line">  <span class="meta">@Get</span>()</span><br><span class="line">  <span class="title function_">findAll</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Post</span>()</span><br><span class="line">  <span class="title function_">addGoods</span>(<span class="params"><span class="meta">@Body</span>() goods: Goods</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">      <span class="attr">id</span>: <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="property">length</span> + <span class="number">1</span>,</span><br><span class="line">      ...goods,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>再次执行<code>http://localhost:3000/goods</code>的<code>POST</code>请求方式，发现返回给我们的商品对象已经有了新的数据了，如图：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/067335723bce4832a450ae84b8e741af~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <h3 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h3><p>修改和添加其实类似的，因为他们接收参数的方式都是通过<code>@Body</code>装饰器来实现的，所以我们只需要关注怎么修改数据即可，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Body, Controller, Get, Post, Put &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-type Goods &#x3D; &#123;
-  id: number;
-  name: string;
-  price: number;
-  keywords: string[];
-&#125;;
-
-@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  private goods: Array&lt;Goods&gt; &#x3D; [];
-  &#x2F;&#x2F; Get...
-  &#x2F;&#x2F; Post...
-
-  @Put()
-  updateGoods(@Body() goods: Goods) &#123;
-    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; goods.id);
-    this.goods[idx] &#x3D; goods;
-    return this.goods;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Body</span>, <span class="title class_">Controller</span>, <span class="title class_">Get</span>, <span class="title class_">Post</span>, <span class="title class_">Put</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Goods</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">price</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">keywords</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">goods</span>: <span class="title class_">Array</span>&lt;<span class="title class_">Goods</span>&gt; = [];</span><br><span class="line">  <span class="comment">// Get...</span></span><br><span class="line">  <span class="comment">// Post...</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Put</span>()</span><br><span class="line">  <span class="title function_">updateGoods</span>(<span class="params"><span class="meta">@Body</span>() goods: Goods</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> idx = <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">findIndex</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === goods.<span class="property">id</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">goods</span>[idx] = goods;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里我们先通过<code>POST</code>请求添加一个商品信息后，然后再通过<code>PUT</code>请求来修改商品的数据，来进行是否添加成功，过程如下图：</p>
 <ol>
 <li>进行数据添加：</li>
@@ -577,37 +457,13 @@ export class GoodsController &#123;
 <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7742b6cb8f974164aee57a958873b57f~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>可以看到，我们成功的将价格为<code>10</code>的面包修改为了<code>6</code>并且返回成功，说明修已经成功了。</p>
 <h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除接口往往是通过<code>Delete</code>方式请求的，所以这里我们需要使用<code>nestjs</code>提供的<code>@Delete()</code>装饰器来实现。<br>删除数据需要传入数据<code>id</code>来作为参数，以便我们能精准的知道需要删除哪条数据，这里我们通过动态路由的方式并配合<code>@Params</code>来接收参数，先来看看如何接收参数：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  &#x2F;&#x2F; TODO...
-  
-  @Delete(&#39;:id&#39;)
-  removeGoods(@Param() param) &#123;
-    console.log(param);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="comment">// TODO...</span></span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Delete</span>(<span class="string">&#x27;:id&#x27;</span>)</span><br><span class="line">  <span class="title function_">removeGoods</span>(<span class="params"><span class="meta">@Param</span>() param</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(param);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里的<code>:id</code>表示一个占位符，可以通过任意参数的形式拼接上来后，然后使用<code>@Param</code>装饰器来接收，现在看看打印的结果：</p>
 <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31f995787a8340f7875181aa2b145dc0~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>此外，还有一种更为简洁的方式来实现参数的接收，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  &#x2F;&#x2F; TODO...
-  
-  @Delete(&#39;:id&#39;)
-  removeGoods(@Param(&#39;id&#39;) id) &#123;&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="comment">// TODO...</span></span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Delete</span>(<span class="string">&#x27;:id&#x27;</span>)</span><br><span class="line">  <span class="title function_">removeGoods</span>(<span class="params"><span class="meta">@Param</span>(<span class="string">&#x27;id&#x27;</span>) id</span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样，就能直接获取到对象的<code>id</code>属性了，<code>@Body</code>这类的装饰器也支持这种写法。知道如何接收参数后，我们就能很容易的写出删除接口了，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  &#x2F;&#x2F; TODO...
-  
-  @Delete(&#39;:id&#39;)
-  removeGoods(@Param(&#39;id&#39;) id) &#123;
-    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
-    this.goods.splice(idx, 1);
-    return this.goods;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="comment">// TODO...</span></span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Delete</span>(<span class="string">&#x27;:id&#x27;</span>)</span><br><span class="line">  <span class="title function_">removeGoods</span>(<span class="params"><span class="meta">@Param</span>(<span class="string">&#x27;id&#x27;</span>) id</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> idx = <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">findIndex</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === id);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">splice</span>(idx, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后，通过访问接口看看接口是否正常：</p>
 <ol>
 <li>通过<code>POST</code>方式先增加一个商品：</li>
@@ -619,20 +475,7 @@ export class GoodsController &#123;
 <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed79248cb3b347a5bf6b32a16fdba899~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>可以发现一切正常，商品数据已经被删除了。</p>
 <h3 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h3><p>到这里，我们现在的所有返回的数据都是通过<code>return</code>的方式直接返回的，那如何通过<code>json</code>格式返回呢？这里首先要明白，<code>nestjs</code>默认采用的是<code>express</code>来处理这些逻辑的。<br>在<code>nestjs</code>中通过使用<code>@Res()</code>装饰器定义了一个响应对象，使用该对象就可以指定响应的方式了，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">
-@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  &#x2F;&#x2F; TODO...
-  
-  @Get(&#39;find&#39;)
-  findById(@Query(&#39;id&#39;) id, @Res() res) &#123;
-    const data &#x3D; this.goods.find((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; +id);
-    res.json(&#123;
-      code: 0,
-      data,
-    &#125;);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="comment">// TODO...</span></span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;find&#x27;</span>)</span><br><span class="line">  <span class="title function_">findById</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;id&#x27;</span>) id, <span class="meta">@Res</span>() res</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">find</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === +id);</span><br><span class="line">    res.<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">code</span>: <span class="number">0</span>,</span><br><span class="line">      data,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们再来看看接口访问的情况：</p>
 <ol>
 <li>通过<code>POST</code>方式添加一条数据：</li>
@@ -643,122 +486,24 @@ export class GoodsController &#123;
 </ol>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b23932e9a9724c44beb78cf3a0cb6a9d~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>对于一些请求，我们会对其进行异常的返回处理，利用<code>nest.js</code>内置的异常类，我们可以很容易的实现这一点，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">removeGoods(id) &#123;
-  const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
-  if (idx &lt; 0) &#123;
-    throw new HttpException(&#39;没有对应的数据&#39;, HttpStatus.NOT_FOUND);
-  &#125;
-  this.goods.splice(idx, 1);
-  return this.goods;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">removeGoods</span>(<span class="params">id</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> idx = <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">findIndex</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === id);</span><br><span class="line">  <span class="keyword">if</span> (idx &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">HttpException</span>(<span class="string">&#x27;没有对应的数据&#x27;</span>, <span class="title class_">HttpStatus</span>.<span class="property">NOT_FOUND</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">splice</span>(idx, <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当删除一个物品时，当没有对应的物品，则抛出一个异常并返回，响应如图：</p>
 <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2be8610afa6e478da5e5fb40ab1f589e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><p>我们上面的例子，无论是参数接收还是逻辑处理都是在控制器中进行的，这样的代码组织并不友好，所以我们需要把不同的逻辑操作放到一个个中的服务里面去，当使用对应的功能时再引入不同的服务。</p>
 <h3 id="新建服务"><a href="#新建服务" class="headerlink" title="新建服务"></a>新建服务</h3><p>通过<code>nest.js</code>脚手架命令，我们很容易就能新建一个服务出来，执行以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g s goods --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest g s goods --no-spec</span><br></pre></td></tr></table></figure>
 <p>一切成功的话，就会发现在<code>src</code>目录下多了一个<code>goods.service.ts</code>文件了。打开该文件，会发现服务类是由装饰器<code>@Injectable()</code>来定义的，服务将通过<code>providers</code>的方式引用，打开<code>app.module.ts</code>文件发现服务已经被自动引入了，这是脚手架的功能。</p>
 <p>在控制器中使用引入的服务的话，需要通过在构造函数中定义对应的服务，然后使用<code>this</code>访问即可。</p>
 <h3 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h3><p>现在有了这个服务文件后，我们就可以将之前在控制器中的逻辑操作代码移动到该服务中去，然后再控制器中只需要调用对应的方法即可，更改后的代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.controller.ts
-import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
-import &#123;
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Query,
-  Res,
-&#125; from &#39;@nestjs&#x2F;common&#39;;
-
-@Controller(&#39;goods&#39;)
-export class GoodsController &#123;
-  constructor(private readonly goodsService: GoodsService) &#123;&#125;
-  @Get()
-  findAll() &#123;
-    return this.goodsService.findAll();
-  &#125;
-
-  @Get(&#39;find&#39;)
-  findById(@Query(&#39;id&#39;) id, @Res() res) &#123;
-    const data &#x3D; this.goodsService.findById(+id);
-    res.status(200).json(&#123;
-      code: 0,
-      data,
-    &#125;);
-  &#125;
-
-  @Post()
-  addGoods(@Body() goods) &#123;
-    return this.goodsService.addGoods(goods);
-  &#125;
-
-  @Put()
-  updateGoods(@Body() goods) &#123;
-    return this.goodsService.updateGoods(goods);
-  &#125;
-
-  @Delete(&#39;:id&#39;)
-  removeGoods(@Param(&#39;id&#39;) id) &#123;
-    return this.goodsService.removeGoods(+id);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">&#x2F;&#x2F; goods.service.ts
-import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-type Goods &#x3D; &#123;
-  id: number;
-  name: string;
-  price: number;
-  keywords: string[];
-&#125;;
-
-@Injectable()
-export class GoodsService &#123;
-  private goods: Array&lt;Goods&gt; &#x3D; [];
-
-  findAll() &#123;
-    return this.goods;
-  &#125;
-
-  findById(id: number) &#123;
-    return this.goods.find((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
-  &#125;
-
-  addGoods(goods: Goods) &#123;
-    this.goods.push(&#123;
-      id: this.goods.length + 1,
-      ...goods,
-    &#125;);
-    return this.goods;
-  &#125;
-
-  updateGoods(goods: Goods) &#123;
-    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; goods.id);
-    this.goods[idx] &#x3D; goods;
-    return this.goods;
-  &#125;
-
-  removeGoods(id) &#123;
-    const idx &#x3D; this.goods.findIndex((item) &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; id);
-    this.goods.splice(idx, 1);
-    return this.goods;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// goods.controller.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">GoodsService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./goods.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  <span class="title class_">Body</span>,</span><br><span class="line">  <span class="title class_">Controller</span>,</span><br><span class="line">  <span class="title class_">Delete</span>,</span><br><span class="line">  <span class="title class_">Get</span>,</span><br><span class="line">  <span class="title class_">Param</span>,</span><br><span class="line">  <span class="title class_">Post</span>,</span><br><span class="line">  <span class="title class_">Put</span>,</span><br><span class="line">  <span class="title class_">Query</span>,</span><br><span class="line">  <span class="title class_">Res</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;goods&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsController</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> <span class="keyword">readonly</span> goodsService: GoodsService</span>) &#123;&#125;</span><br><span class="line">  <span class="meta">@Get</span>()</span><br><span class="line">  <span class="title function_">findAll</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goodsService</span>.<span class="title function_">findAll</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;find&#x27;</span>)</span><br><span class="line">  <span class="title function_">findById</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;id&#x27;</span>) id, <span class="meta">@Res</span>() res</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="variable language_">this</span>.<span class="property">goodsService</span>.<span class="title function_">findById</span>(+id);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">code</span>: <span class="number">0</span>,</span><br><span class="line">      data,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Post</span>()</span><br><span class="line">  <span class="title function_">addGoods</span>(<span class="params"><span class="meta">@Body</span>() goods</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goodsService</span>.<span class="title function_">addGoods</span>(goods);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Put</span>()</span><br><span class="line">  <span class="title function_">updateGoods</span>(<span class="params"><span class="meta">@Body</span>() goods</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goodsService</span>.<span class="title function_">updateGoods</span>(goods);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Delete</span>(<span class="string">&#x27;:id&#x27;</span>)</span><br><span class="line">  <span class="title function_">removeGoods</span>(<span class="params"><span class="meta">@Param</span>(<span class="string">&#x27;id&#x27;</span>) id</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goodsService</span>.<span class="title function_">removeGoods</span>(+id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// goods.service.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Goods</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">price</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">keywords</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsService</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">goods</span>: <span class="title class_">Array</span>&lt;<span class="title class_">Goods</span>&gt; = [];</span><br><span class="line"></span><br><span class="line">  <span class="title function_">findAll</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">findById</span>(<span class="params">id: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">find</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === id);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">addGoods</span>(<span class="params">goods: Goods</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">      <span class="attr">id</span>: <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="property">length</span> + <span class="number">1</span>,</span><br><span class="line">      ...goods,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">updateGoods</span>(<span class="params">goods: Goods</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> idx = <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">findIndex</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === goods.<span class="property">id</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">goods</span>[idx] = goods;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">removeGoods</span>(<span class="params">id</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> idx = <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">findIndex</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === id);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">goods</span>.<span class="title function_">splice</span>(idx, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goods</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这样就完成服务的抽离了，编写好的服务能帮助我们更好的组织代码和服用代码。</p>
 <h2 id="实体对象"><a href="#实体对象" class="headerlink" title="实体对象"></a>实体对象</h2><p>目前我们的商品类型是通过<code>type</code>定义的，但是在<code>nest.js</code>中有一种更好的写法，叫做<strong>实体对象</strong>的写法，其实该对象就是一个普通类，现在我们创建一个商品实体对象。</p>
 <ol>
 <li>在<code>src/goods</code>目录下新建<code>entities</code>目录；</li>
 <li>在<code>entites</code>目录下新建<code>goods.entity.ts</code>文件；</li>
-<li>在<code>goods.entity.ts</code>文件中编写如下代码：<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">export default class Goods &#123;
-  id: number;
-  name: string;
-  price: number;
-  keywords: string[];
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>在<code>goods.entity.ts</code>文件中编写如下代码：<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">Goods</span> &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">price</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">keywords</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>然后将之前的<code>Goods</code>类型替换为该实体。</li>
 </ol>
 <blockquote>
@@ -766,96 +511,45 @@ export class GoodsService &#123;
 </blockquote>
 <h2 id="数据传送对象"><a href="#数据传送对象" class="headerlink" title="数据传送对象"></a>数据传送对象</h2><p>上面的例子中我们使用<code>@Body()</code>装饰器来接收参数，但是该参数其实是没有一个类型限制的。限制，我们通过数据传输对象就可以实现在接收参数时，对参数的一个限制和转换了。</p>
 <h3 id="创建DTO"><a href="#创建DTO" class="headerlink" title="创建DTO"></a>创建DTO</h3><p>通过<code>nest.js</code>的脚手架命令，我们可以输入以下内容进行<code>DTO</code>文件的创建：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g class goods&#x2F;dto&#x2F;create-goods.dto --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest g class goods/dto/create-goods.dto --no-spec</span><br></pre></td></tr></table></figure>
 <p>可以发现，在<code>src/goods</code>目录下多了一个<code>dto</code>目录，并且该目录下多了一个<code>create-goods.dto.ts</code>文件，该文件的编写和实体对象类似，如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">export class CreateGoodsDto &#123;
-  name: string;
-  price: number;
-  keywords: string[];
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CreateGoodsDto</span> &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">price</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">keywords</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>现在，我们只需要将<code>POST</code>请求中的<code>@Body()</code>装饰器修饰的参数类型定义为此即可（服务里面涉及的参数一并修改）：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Post()
-addGoods(@Body() createGoodsDto: CreateGoodsDto) &#123;
-return this.goodsService.addGoods(createGoodsDto);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Post</span>()</span><br><span class="line"><span class="title function_">addGoods</span>(<span class="params"><span class="meta">@Body</span>() createGoodsDto: CreateGoodsDto</span>) &#123;</span><br><span class="line"><span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">goodsService</span>.<span class="title function_">addGoods</span>(createGoodsDto);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>再次访问<code>POST</code>接口，我们尝试把<code>price</code>属性修改为字符串看看是什么结果，结果如下图：</p>
 <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/708d7949fdc549faba555b0900ccd803~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>发现响应一切正常，只是希望得到的<code>price</code>属性变为了字符串类型。那么，这个数据传输对象是个鸡肋嘛？并不是，现在我们搭配<code>nest.js</code>内置的<code>ValidationPipe</code>就能实现奇效！</p>
 <h3 id="ValidationPipe"><a href="#ValidationPipe" class="headerlink" title="ValidationPipe"></a>ValidationPipe</h3><p>使用<code>ValidationPipe</code>非常容易，我们只需要在<code>main.ts</code>中编写如下代码即可：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; ValidationPipe &#125; from &#39;@nestjs&#x2F;common&#x2F;pipes&#x2F;validation.pipe&#39;;
-import &#123; NestFactory &#125; from &#39;@nestjs&#x2F;core&#39;;
-import &#123; AppModule &#125; from &#39;.&#x2F;app.module&#39;;
-
-async function bootstrap() &#123;
-  const app &#x3D; await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
-&#125;
-bootstrap();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ValidationPipe</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common/pipes/validation.pipe&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">NestFactory</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/core&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.module&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">bootstrap</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> app = <span class="keyword">await</span> <span class="title class_">NestFactory</span>.<span class="title function_">create</span>(<span class="title class_">AppModule</span>);</span><br><span class="line">  app.<span class="title function_">useGlobalPipes</span>(<span class="keyword">new</span> <span class="title class_">ValidationPipe</span>());</span><br><span class="line">  <span class="keyword">await</span> app.<span class="title function_">listen</span>(<span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">bootstrap</span>();</span><br></pre></td></tr></table></figure>
 <p>通过<code>app.useGlobalPipes(new ValidationPipe());</code>这行代码我们就已经注册好了<code>ValidationPipe</code>对象。</p>
 <p>接下来如果想要<code>ValidationPipe</code>发挥作用的话，还需要安装两个依赖：</p>
-<pre class="line-numbers language-nest.js" data-language="nest.js"><code class="language-nest.js">npm i --save class-validator class-transformer<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i --save class-validator class-transformer</span><br></pre></td></tr></table></figure>
 <p>安装完成依赖后，现在我们再进入到<code>create-goods.dto.ts</code>文件中进行以下配置：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; IsString &#125; from &#39;class-validator&#39;;
-import &#123; IsNumber &#125; from &#39;class-validator&#x2F;types&#x2F;decorator&#x2F;decorators&#39;;
-
-export class CreateGoodsDto &#123;
-  @IsString() &#x2F;&#x2F; 表明该字段是string类型
-  name: string;
-  @IsNumber() &#x2F;&#x2F; 表明该字段是nunmber类型
-  price: number;
-  @IsString(&#123; each: true &#125;) &#x2F;&#x2F; 表明该字段是string[]类型
-  keywords: string[];
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">IsString</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;class-validator&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">IsNumber</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;class-validator/types/decorator/decorators&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">CreateGoodsDto</span> &#123;</span><br><span class="line">  <span class="meta">@IsString</span>() <span class="comment">// 表明该字段是string类型</span></span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="meta">@IsNumber</span>() <span class="comment">// 表明该字段是nunmber类型</span></span><br><span class="line">  <span class="attr">price</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="meta">@IsString</span>(&#123; <span class="attr">each</span>: <span class="literal">true</span> &#125;) <span class="comment">// 表明该字段是string[]类型</span></span><br><span class="line">  <span class="attr">keywords</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后接着我们再访问接口，发现结果如下图：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e266dfcb46d4b2e9235179d00ad69db~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>响应结果抛出了一个状态码为<code>400</code>的错误，并且提示<code>price</code>必须为一个<code>number</code>类型。</p>
 <p><code>ValidationPipe</code>还可以进行参数的筛选，我们看下这个请求例子：</p>
 <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7b87d9872dd44d2fad7386cc5bb00b6e~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>我们发现，请求参数多了一个<code>brand</code>属性，这个是在我们的<strong>数据传送对象</strong>中未定义的，但是仍然被接收到了，如果我们不想接收<strong>数据传送对象</strong>以外的参数的话，只需要进行如下配置即可：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">app.useGlobalPipes(
-    new ValidationPipe(&#123;
-      whitelist: true,
-    &#125;),
-  );<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app.<span class="title function_">useGlobalPipes</span>(</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">ValidationPipe</span>(&#123;</span><br><span class="line">      <span class="attr">whitelist</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
 <p>接下来再次发送请求，发现多余的字段已经不存在了：</p>
 <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/885ef57a2b3c45f5bf7a1279bed57102~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p><code>ValidationPipe</code>的功能还不止于此，除了配合<strong>数据传送对象</strong>之外，他还可以将参数进行一个类型的转换，看一下之前的一个请求：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Get(&#39;find&#39;)
-findById(@Query(&#39;id&#39;) id:number, @Res() res) &#123;
-    console.log(typeof id);
-    const data &#x3D; this.goodsService.findById(+id);
-    res.status(200).json(&#123;
-      code: 0,
-      data,
-    &#125;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Get</span>(<span class="string">&#x27;find&#x27;</span>)</span><br><span class="line"><span class="title function_">findById</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;id&#x27;</span>) id:<span class="built_in">number</span>, <span class="meta">@Res</span>() res</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">typeof</span> id);</span><br><span class="line">    <span class="keyword">const</span> data = <span class="variable language_">this</span>.<span class="property">goodsService</span>.<span class="title function_">findById</span>(+id);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">code</span>: <span class="number">0</span>,</span><br><span class="line">      data,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们这里传入<code>id</code>到服务中时，进行了一个类型的转换，为啥会这样呢？我们打印看一下<code>id</code>的参数就明白了，如下图：</p>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1aaa78c8f5674c5780dbf278877e4740~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>即使我们对接收参数的类型进行了<code>number</code>的限制，但是依然获取到一个<code>string</code>类型的变量，这是因为通过浏览器地址中的参数本身就是<code>string</code>类型的。<br>现在，我们在<code>ValidationPipe</code>中进行如下配置：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">app.useGlobalPipes(
-  new ValidationPipe(&#123;
-    whitelist: true,
-    transform: true,
-  &#125;),
-);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">app.<span class="title function_">useGlobalPipes</span>(</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">ValidationPipe</span>(&#123;</span><br><span class="line">    <span class="attr">whitelist</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">transform</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>接着，再看一下请求时打印的参数信息：</p>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/39e5a8dc01a0421f88453ba59738924c~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <blockquote>
 <p>注意：转换的功能会对应用产生轻微的影响</p>
 </blockquote>
 <h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><p>到现在为止，我们写的控制器、服务都是注册到<code>app.module</code>中的，而非一个单独的模块，如果对于一个复杂的应用来说，这种组织是不合理的。<br>所以现在我们新建一个<code>module</code>来存放这些文件，在终端输入以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g mo goods<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest g mo goods</span><br></pre></td></tr></table></figure>
 <p>可以看到在<code>src/goods</code>目录下多了一个<code>goods.module.ts</code>文件，打开该文件进行如下配置：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; GoodsController &#125; from &#39;.&#x2F;goods.controller&#39;;
-import &#123; GoodsService &#125; from &#39;.&#x2F;goods.service&#39;;
-import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-@Module(&#123;
-  controllers: [GoodsController], &#x2F;&#x2F; 引入的控制器
-  providers: [GoodsService], &#x2F;&#x2F; 注入的服务
-&#125;)
-export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">GoodsController</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./goods.controller&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">GoodsService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./goods.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">controllers</span>: [<span class="title class_">GoodsController</span>], <span class="comment">// 引入的控制器</span></span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">GoodsService</span>], <span class="comment">// 注入的服务</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">GoodsModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>接着，再将<code>app.module.ts</code>里面引入的<code>GoodsController</code>和<code>GoodsService</code>删除掉，转而引入<code>GoodsModule</code>模块（脚手架工具创建的模块会自动引入）。</p>
 <p>这样，我们就叫一个独立的<code>goods</code>模块抽离出来了。</p>
 <h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>以上就是对<code>nest.js</code>的基础介绍。  </p>
@@ -903,7 +597,6 @@ export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-number
   </div>
 </div>
 
-<script src="http://cdn.yangxiang.cc/prism.js"></script>
 
 <script>
   // var定义，避免pjax重新进来造成的重复声明错误
@@ -993,10 +686,8 @@ export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-number
         const newDom = operateDom.cloneNode(true);
         const _backtopDom = newDom.querySelector('.backtop');
         const _commentDom = newDom.querySelector('.turn-comment');
-        console.log(_commentDom)
         _backtopDom.addEventListener('click', () => backTopEvent());
         _commentDom.addEventListener('click', () => commentDomEvent());
-
         cateloguDom.appendChild(newDom);
       } else {
         commentDom.classList.add('hidden')
@@ -1063,7 +754,11 @@ export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-number
     const rootPath = "/"
 
     const checkAndSetArticlePageLayout = () => {
-      if (/^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(location.pathname.replace(rootPath, ''))) {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
         $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
       } else {
         $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
@@ -1090,7 +785,6 @@ export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-number
         $('#container').slideToggle()
         setTimeout(() => {
           initScroll();
-          window.loadImageFn();
         }, 500)
       }, 500)
     }
@@ -1116,8 +810,7 @@ export class GoodsModule &#123;&#125;<span aria-hidden="true" class="line-number
     $(document).on('pjax:popstate', function() {
       status = -1
       checkAndSetArticlePageLayout()
-      // $('.main-container').fadeIn()
-    })
+    });
   </script>
 </body>
 </html>

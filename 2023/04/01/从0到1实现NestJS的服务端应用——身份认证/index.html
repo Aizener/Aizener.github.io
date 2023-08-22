@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   
   <title>我的技术与生活——从0到1实现NestJS的服务端应用——身份认证 | Hexo</title>
+  <meta name="referrer" content="never">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="../../../../imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/public.css" />
@@ -193,7 +194,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
+  const posts = JSON.parse(`[{"title":"从0到1实现NestJS的服务端应用——初级篇","cover":"https://img0.baidu.com/it/u=994049389,1630802714&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=354","path":"2023/04/01/从0到1实现NestJS的服务端应用——初级篇/"},{"title":"从0到1实现NestJS的服务端应用——基础篇","cover":"https://img1.baidu.com/it/u=1788850120,2124170545&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——基础篇/"},{"title":"从0到1实现NestJS的服务端应用——数据库篇","cover":"https://img1.baidu.com/it/u=242774736,3363938964&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500","path":"2023/04/01/从0到1实现NestJS的服务端应用——数据库篇/"},{"title":"从0到1实现NestJS的服务端应用——身份认证","cover":"https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800","path":"2023/04/01/从0到1实现NestJS的服务端应用——身份认证/"},{"title":"关于H5新特性拖放API讲解","path":"2022/03/24/关于H5新特性拖放API讲解/"},{"title":"分享基于H5实现扫码功能","cover":"https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c64349191a94bf19bcaeb14a62d328c~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?","path":"2022/08/14/分享基于H5实现扫码功能/"},{"title":"在Vue项目中使用ESLint来检查代码","cover":"https://s3.bmp.ovh/imgs/2022/04/01/647275ce2adecce7.png","path":"2022/03/02/在Vue项目中使用ESLint来检查代码/"},{"title":"基于Vue对主题修改的思考与实现","cover":"https://s3.bmp.ovh/imgs/2022/04/01/7d831a8e4b739ac2.png","path":"2022/04/01/基于Vue对主题修改的思考与实现/"},{"title":"如何使用hexo-theme-cola主题","path":"2022/02/17/如何使用hexo-theme-cola主题/"},{"title":"趣味NodeJS之笔趣阁的小蜘蛛","cover":"https://s3.bmp.ovh/imgs/2022/04/01/05822287376d328d.png","path":"2022/03/08/趣味NodeJS之笔趣阁的小蜘蛛/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -335,7 +336,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>410天</span>
+        <span>553天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -347,27 +348,7 @@
       <div id="main-container" class="main-container">
 
 
-  <style>
-pre::-webkit-scrollbar {
-  width: 5px;
-  height: 10px;
-  background-color:#F5F5F5;
-}
-/*定义滚动条轨道
-内阴影+圆角*/
-pre::-webkit-scrollbar-track {
-  background-color:#F5F5F5;
-}
-/*定义滑块
-内阴影+圆角*/
-pre::-webkit-scrollbar-thumb {
-  background-color: rgb(69, 83, 100);
-}
-
-pre:active {
-  background-color: rgb(81, 95, 116);
-}
-</style>
+  <link rel="stylesheet" href="../../../../css/partial/article.css" />
 
 <div class="article-container">
   <div class="article">
@@ -392,110 +373,30 @@ pre:active {
         <img src="https://img1.baidu.com/it/u=1097493471,495563701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800" alt="" class="article-cover">
       </div>
     </div>
-    <article class="article-content">
+    <article class="article-content markdown-body">
       <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>身份认证在每一个服务端应用都是绕不过的问题，只有通过了身份认证的处理我们才能更好的去分配资源给用户。<br>在<code>nestjs</code>中，通过内置封装了<a target="_blank" rel="noopener" href="https://github.com/jaredhanson/passport">Passport</a>库来使得我们进行身份认证更为容易简单了。现在，我们就尝试来使用<code>nestjs</code>内置的功能来实现身份认证功能吧。</p>
 <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>我们这里先打开终端，通过下面命令新建一个空的项目：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest new authentication-demo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest new authentication-demo</span><br></pre></td></tr></table></figure>
 <p>项目创建完成后，打开项目。上面说过<code>nestjs</code>对<code>Passport</code>进行了一个封装，所以我们在编码前需要安装如下库：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm install --save @nestjs&#x2F;passport passport passport-local
-npm install --save-dev @types&#x2F;passport-local<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @nestjs/passport passport passport-local</span><br><span class="line">npm install --save-dev @types/passport-local</span><br></pre></td></tr></table></figure>
 <p>依赖库完毕之后，我们还需要创建两个模块，在终端中输入以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nest g mo auth
-nest g s auth --no-spec
-nest g mo user
-nest g s user --no-spec<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nest g mo auth</span><br><span class="line">nest g s auth --no-spec</span><br><span class="line">nest g mo user</span><br><span class="line">nest g s user --no-spec</span><br></pre></td></tr></table></figure>
 <p>当以上命令执行完毕之后，我们应该会有如下目录结构：</p>
 <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a28cf0925a584fac909b8257591527fd~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>如果上述步骤都没有问题，接下来我们将开始实现身份认证的步骤了。</p>
 <h1 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h1><h2 id="数据模拟"><a href="#数据模拟" class="headerlink" title="数据模拟"></a>数据模拟</h2><p>首先，在进行认证的编码工作前，我们需要进行一个数据的简单模拟，打开<code>user.service.ts</code>文件，进行如下编码：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
-
-export type User &#x3D; &#123;
-  id: number;
-  username: string;
-  password: string;
-&#125;;
-
-@Injectable()
-export class UserService &#123;
-  private users: User[] &#x3D; [
-    &#123; id: 1, username: &#39;zhangsan&#39;, password: &#39;zs123&#39; &#125;,
-    &#123; id: 2, username: &#39;lisi&#39;, password: &#39;ls123&#39; &#125;,
-    &#123; id: 3, username: &#39;wangwu&#39;, password: &#39;ww123&#39; &#125;,
-  ];
-
-  async findOneByUsername(username: string): Promise&lt;User | undefined&gt; &#123;
-    return this.users.find((item) &#x3D;&gt; item.username &#x3D;&#x3D;&#x3D; username);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> <span class="title class_">User</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">username</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">password</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">users</span>: <span class="title class_">User</span>[] = [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">username</span>: <span class="string">&#x27;zhangsan&#x27;</span>, <span class="attr">password</span>: <span class="string">&#x27;zs123&#x27;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">username</span>: <span class="string">&#x27;lisi&#x27;</span>, <span class="attr">password</span>: <span class="string">&#x27;ls123&#x27;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">3</span>, <span class="attr">username</span>: <span class="string">&#x27;wangwu&#x27;</span>, <span class="attr">password</span>: <span class="string">&#x27;ww123&#x27;</span> &#125;,</span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">findOneByUsername</span>(<span class="attr">username</span>: <span class="built_in">string</span>): <span class="title class_">Promise</span>&lt;<span class="title class_">User</span> | <span class="literal">undefined</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">users</span>.<span class="title function_">find</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">username</span> === username);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>好了，现在我们已经模拟出了一个“用户表”，里面分别有“张三，李四，王五”的数据信息。</p>
 <h2 id="用户验证方法"><a href="#用户验证方法" class="headerlink" title="用户验证方法"></a>用户验证方法</h2><p>现在，我们打开<code>auth.service.ts</code>文件，编写一个验证用户信息的方法，代码如下：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; UserService &#125; from &#39;..&#x2F;user&#x2F;user.service&#39;;
-
-@Injectable()
-export class AuthService &#123;
-  constructor(private usersService: UserService) &#123;&#125;
-
-  async validateUser(username: string, passord: string): Promise&lt;any&gt; &#123;
-    const user &#x3D; await this.usersService.findOneByUsername(username);
-    if (user &amp;&amp; user.password &#x3D;&#x3D;&#x3D; passord) &#123;
-      const &#123; password, ...result &#125; &#x3D; user;
-      return result;
-    &#125;
-    return null;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;../user/user.service&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AuthService</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> usersService: UserService</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">validateUser</span>(<span class="attr">username</span>: <span class="built_in">string</span>, <span class="attr">passord</span>: <span class="built_in">string</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">usersService</span>.<span class="title function_">findOneByUsername</span>(username);</span><br><span class="line">    <span class="keyword">if</span> (user &amp;&amp; user.<span class="property">password</span> === passord) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; password, ...result &#125; = user;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>该方法主要作用：调用<code>UserService</code>判断用户名和密码是否与模拟的数据一致。</p>
 <h2 id="验证策略"><a href="#验证策略" class="headerlink" title="验证策略"></a>验证策略</h2><p>完成以上步骤后，接下来我们就需要开始编写用户验证对应的策略。在<code>auth</code>目录下面，我们新建一个<code>local.strategy.ts</code>文件，并编写如下代码：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Strategy &#125; from &#39;passport-local&#39;;
-import &#123; PassportStrategy &#125; from &#39;@nestjs&#x2F;passport&#39;;
-import &#123; Injectable, UnauthorizedException &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; AuthService &#125; from &#39;.&#x2F;auth.service&#39;;
-
-@Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) &#123;
-  constructor(private authService: AuthService) &#123;
-    super();
-  &#125;
-
-  async validate(username: string, password: string): Promise&lt;any&gt; &#123;
-    const user &#x3D; await this.authService.validateUser(username, password);
-    if (!user) &#123;
-      throw new UnauthorizedException();
-    &#125;
-    return user;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Strategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;passport-local&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">PassportStrategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span>, <span class="title class_">UnauthorizedException</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./auth.service&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">LocalStrategy</span> <span class="keyword">extends</span> <span class="title class_ inherited__">PassportStrategy</span>(<span class="title class_">Strategy</span>) &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> authService: AuthService</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">validate</span>(<span class="attr">username</span>: <span class="built_in">string</span>, <span class="attr">password</span>: <span class="built_in">string</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">authService</span>.<span class="title function_">validateUser</span>(username, password);</span><br><span class="line">    <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnauthorizedException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在上面的代码中，我们通过调用<code>AuthService</code>里面的<code>validateUser</code>方法，以此来判断用户名和密码是否正确，当验证失败时会直接抛出<code>UnauthorizedException</code>异常。</p>
 <p>因为我们使用了依赖注入来引入其他服务类，所以我们的<code>auth.module.ts</code>文件也需要进行对应模块的引入：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; PassportModule &#125; from &#39;@nestjs&#x2F;passport&#39;;
-import &#123; UserModule &#125; from &#39;src&#x2F;user&#x2F;user.module&#39;;
-import &#123; AuthService &#125; from &#39;.&#x2F;auth.service&#39;;
-import &#123; LocalStrategy &#125; from &#39;.&#x2F;local.strategy&#39;;
-
-@Module(&#123;
-  imports: [UserModule, PassportModule],
-  providers: [AuthService, LocalStrategy],
-&#125;)
-export class AuthModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">PassportModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;src/user/user.module&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./auth.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">LocalStrategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./local.strategy&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [<span class="title class_">UserModule</span>, <span class="title class_">PassportModule</span>],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">AuthService</span>, <span class="title class_">LocalStrategy</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AuthModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="守卫验证"><a href="#守卫验证" class="headerlink" title="守卫验证"></a>守卫验证</h2><p>完成以上所有步骤后，我们就可以进入控制器里面对希望的路由添加内置的装饰器进行一个拦截，例如下面代码：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Controller, Post, UseGuards &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; Req &#125; from &#39;@nestjs&#x2F;common&#x2F;decorators&#39;;
-import &#123; AuthGuard &#125; from &#39;@nestjs&#x2F;passport&#39;;
-import &#123; AppService &#125; from &#39;.&#x2F;app.service&#39;;
-
-@Controller()
-export class AppController &#123;
-  constructor(private readonly appService: AppService) &#123;&#125;
-
-  @UseGuards(AuthGuard(&#39;local&#39;))
-  @Post(&#39;auth&#x2F;login&#39;)
-  async login(@Req() req) &#123;
-    return req.user;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Controller</span>, <span class="title class_">Post</span>, <span class="title class_">UseGuards</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Req</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common/decorators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthGuard</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.service&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppController</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> <span class="keyword">readonly</span> appService: AppService</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@UseGuards</span>(<span class="title class_">AuthGuard</span>(<span class="string">&#x27;local&#x27;</span>))</span><br><span class="line">  <span class="meta">@Post</span>(<span class="string">&#x27;auth/login&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">login</span>(<span class="params"><span class="meta">@Req</span>() req</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> req.<span class="property">user</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面的<code>@UseGuards(AuthGuard(&#39;local&#39;))</code>就通过使用<code>nestjs</code>内置的<code>AuthGuard</code>守卫来进行身份验证的，其原理就是通过传入的<code>local</code>找到对应的策略并调用<code>validate</code>方法来获得验证结果。</p>
 <blockquote>
 <p>上面我们创建的策略LocalStrategy默认名称为：local</p>
@@ -511,119 +412,24 @@ export class AppController &#123;
 <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d14f0b35f9f4eb58aac9cefd62cbaa7~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>到这里，我们验证身份的目的已经基本实现了。<br>但是还有一个问题，我们通常进行身份验证时除了登录会用到用户和密码以外，其他情况都是通过<code>token</code>这种令牌来验证的，所以我们还需要进行扩展。</p>
 <h2 id="JWT验证"><a href="#JWT验证" class="headerlink" title="JWT验证"></a>JWT验证</h2><p>要在<code>nestjs</code>中使用<code>jwt</code>进行验证，还需要安装几个依赖库，输入以下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">npm install --save @nestjs&#x2F;jwt passport-jwt
-npm install --save-dev @types&#x2F;passport-jwt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @nestjs/jwt passport-jwt</span><br><span class="line">npm install --save-dev @types/passport-jwt</span><br></pre></td></tr></table></figure>
 <p>安装完成以后，我们打开<code>auth.service.ts</code>文件，并添加如下方法：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; JwtService &#125; from &#39;@nestjs&#x2F;jwt&#39;;
-import &#123; UserService &#125; from &#39;..&#x2F;user&#x2F;user.service&#39;;
-
-@Injectable()
-export class AuthService &#123;
-  constructor(
-    private usersService: UserService,
-    private jwtService: JwtService,
-  ) &#123;&#125;
-
-  async validateUser(username: string, passord: string): Promise&lt;any&gt; &#123;
-    const user &#x3D; await this.usersService.findOneByUsername(username);
-    if (user &amp;&amp; user.password &#x3D;&#x3D;&#x3D; passord) &#123;
-      const &#123; password, ...result &#125; &#x3D; user;
-      return result;
-    &#125;
-    return null;
-  &#125;
-
-  async login(user: any) &#123;
-    const payload &#x3D; &#123; username: user.username, sub: user.id ;
-    return &#123;
-      access_token: this.jwtService.sign(payload),
-    &#125;;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">JwtService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/jwt&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;../user/user.service&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AuthService</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> usersService: UserService,</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> jwtService: JwtService,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">validateUser</span>(<span class="attr">username</span>: <span class="built_in">string</span>, <span class="attr">passord</span>: <span class="built_in">string</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">usersService</span>.<span class="title function_">findOneByUsername</span>(username);</span><br><span class="line">    <span class="keyword">if</span> (user &amp;&amp; user.<span class="property">password</span> === passord) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; password, ...result &#125; = user;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">login</span>(<span class="params">user: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> payload = &#123; <span class="attr">username</span>: user.<span class="property">username</span>, <span class="attr">sub</span>: user.<span class="property">id</span> ;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">access_token</span>: <span class="variable language_">this</span>.<span class="property">jwtService</span>.<span class="title function_">sign</span>(payload),</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>编写完成以后，我们在<code>auth</code>目录下再次创建一个名为<code>constants.ts</code>的文件，并编写如下代码：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">export const jwtConstants &#x3D; &#123;
-  secret:
-    &#39;DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.&#39;,
-&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> jwtConstants = &#123;</span><br><span class="line">  <span class="attr">secret</span>:</span><br><span class="line">    <span class="string">&#x27;DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>该文件中导出的<code>secret</code>是我们下面创建<code>token</code>需要的一个私密<code>key</code>值。</p>
 <p>好，现在进入<code>auth.module</code>文件中，引入<code>jwt</code>模块，并对代码进行如下编写：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; JwtModule &#125; from &#39;@nestjs&#x2F;jwt&#39;;
-import &#123; PassportModule &#125; from &#39;@nestjs&#x2F;passport&#39;;
-import &#123; UserModule &#125; from &#39;src&#x2F;user&#x2F;user.module&#39;;
-import &#123; AuthService &#125; from &#39;.&#x2F;auth.service&#39;;
-import &#123; jwtConstants &#125; from &#39;.&#x2F;constants&#39;;
-import &#123; LocalStrategy &#125; from &#39;.&#x2F;local.strategy&#39;;
-
-@Module(&#123;
-  imports: [
-    UserModule,
-    PassportModule,
-    JwtModule.register(&#123;
-      secret: jwtConstants.secret,
-      signOptions: &#123; expiresIn: &#39;60s&#39; &#125;,
-    &#125;),
-  ],
-  providers: [AuthService, LocalStrategy],
-&#125;)
-export class AuthModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">JwtModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/jwt&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">PassportModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;src/user/user.module&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./auth.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; jwtConstants &#125; <span class="keyword">from</span> <span class="string">&#x27;./constants&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">LocalStrategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./local.strategy&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [</span><br><span class="line">    <span class="title class_">UserModule</span>,</span><br><span class="line">    <span class="title class_">PassportModule</span>,</span><br><span class="line">    <span class="title class_">JwtModule</span>.<span class="title function_">register</span>(&#123;</span><br><span class="line">      <span class="attr">secret</span>: jwtConstants.<span class="property">secret</span>,</span><br><span class="line">      <span class="attr">signOptions</span>: &#123; <span class="attr">expiresIn</span>: <span class="string">&#x27;60s&#x27;</span> &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">AuthService</span>, <span class="title class_">LocalStrategy</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AuthModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>完成上述步骤后，我们接下来就得像之前一样为<code>token</code>验证创建一个策略，在<code>auth</code>目录下新建<code>jwt.strategy.ts</code>文件，并编写如下代码：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; ExtractJwt, Strategy &#125; from &#39;passport-jwt&#39;;
-import &#123; PassportStrategy &#125; from &#39;@nestjs&#x2F;passport&#39;;
-import &#123; Injectable &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; jwtConstants &#125; from &#39;.&#x2F;constants&#39;;
-
-@Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) &#123;
-  constructor() &#123;
-    super(&#123;
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), &#x2F;&#x2F; 表示从header中的Authorization的Bearer表头中获取token值
-      ignoreExpiration: false, &#x2F;&#x2F; 是否忽视token过期的情况
-      secretOrKey: jwtConstants.secret,
-    &#125;);
-  &#125;
-
-  async validate(payload: any) &#123;
-    return &#123; userId: payload.sub, username: payload.username &#125;;
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ExtractJwt</span>, <span class="title class_">Strategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;passport-jwt&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">PassportStrategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; jwtConstants &#125; <span class="keyword">from</span> <span class="string">&#x27;./constants&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">JwtStrategy</span> <span class="keyword">extends</span> <span class="title class_ inherited__">PassportStrategy</span>(<span class="title class_">Strategy</span>) &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(&#123;</span><br><span class="line">      <span class="attr">jwtFromRequest</span>: <span class="title class_">ExtractJwt</span>.<span class="title function_">fromAuthHeaderAsBearerToken</span>(), <span class="comment">// 表示从header中的Authorization的Bearer表头中获取token值</span></span><br><span class="line">      <span class="attr">ignoreExpiration</span>: <span class="literal">false</span>, <span class="comment">// 是否忽视token过期的情况</span></span><br><span class="line">      <span class="attr">secretOrKey</span>: jwtConstants.<span class="property">secret</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">validate</span>(<span class="params">payload: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">userId</span>: payload.<span class="property">sub</span>, <span class="attr">username</span>: payload.<span class="property">username</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>完成以上策略后，我们还需要进入<code>auth.module.ts</code>中注册依赖：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">import &#123; Module &#125; from &#39;@nestjs&#x2F;common&#39;;
-import &#123; JwtModule &#125; from &#39;@nestjs&#x2F;jwt&#39;;
-import &#123; PassportModule &#125; from &#39;@nestjs&#x2F;passport&#39;;
-import &#123; UserModule &#125; from &#39;src&#x2F;user&#x2F;user.module&#39;;
-import &#123; AuthService &#125; from &#39;.&#x2F;auth.service&#39;;
-import &#123; jwtConstants &#125; from &#39;.&#x2F;constants&#39;;
-import &#123; JwtStrategy &#125; from &#39;.&#x2F;jwt.strategy&#39;;
-import &#123; LocalStrategy &#125; from &#39;.&#x2F;local.strategy&#39;;
-
-@Module(&#123;
-  imports: [
-    UserModule,
-    PassportModule,
-    JwtModule.register(&#123;
-      secret: jwtConstants.secret,
-      signOptions: &#123; expiresIn: &#39;60s&#39; &#125;,
-    &#125;),
-  ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
-&#125;)
-export class AuthModule &#123;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">JwtModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/jwt&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">PassportModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;src/user/user.module&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./auth.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; jwtConstants &#125; <span class="keyword">from</span> <span class="string">&#x27;./constants&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">JwtStrategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./jwt.strategy&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">LocalStrategy</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./local.strategy&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [</span><br><span class="line">    <span class="title class_">UserModule</span>,</span><br><span class="line">    <span class="title class_">PassportModule</span>,</span><br><span class="line">    <span class="title class_">JwtModule</span>.<span class="title function_">register</span>(&#123;</span><br><span class="line">      <span class="attr">secret</span>: jwtConstants.<span class="property">secret</span>,</span><br><span class="line">      <span class="attr">signOptions</span>: &#123; <span class="attr">expiresIn</span>: <span class="string">&#x27;60s&#x27;</span> &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">AuthService</span>, <span class="title class_">LocalStrategy</span>, <span class="title class_">JwtStrategy</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AuthModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>完成以上步骤后，我们就可以进入控制器中添加一个需要<code>jwt</code>认证的路由：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@UseGuards(AuthGuard(&#39;jwt&#39;))
-@Get(&#39;profile&#39;)
-getProfile(@Req() req) &#123;
-    return req.user;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@UseGuards</span>(<span class="title class_">AuthGuard</span>(<span class="string">&#x27;jwt&#x27;</span>))</span><br><span class="line"><span class="meta">@Get</span>(<span class="string">&#x27;profile&#x27;</span>)</span><br><span class="line"><span class="title function_">getProfile</span>(<span class="params"><span class="meta">@Req</span>() req</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> req.<span class="property">user</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>完成路由的添加后，我们尝试请求该接口，返回如下：</p>
 <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/57047f8c457545628b2ec39194b47db6~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>这是因为，我们请求接口时还未携带<code>token</code>参数，现在我们修改之前的登录接口，返回生成的<code>token</code>值：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@UseGuards(AuthGuard(&#39;local&#39;))
-@Post(&#39;auth&#x2F;login&#39;)
-async login(@Req() req) &#123;
-    return this.authService.login(req.user);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@UseGuards</span>(<span class="title class_">AuthGuard</span>(<span class="string">&#x27;local&#x27;</span>))</span><br><span class="line"><span class="meta">@Post</span>(<span class="string">&#x27;auth/login&#x27;</span>)</span><br><span class="line"><span class="keyword">async</span> <span class="title function_">login</span>(<span class="params"><span class="meta">@Req</span>() req</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">authService</span>.<span class="title function_">login</span>(req.<span class="property">user</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>请求完成之后，可以发现我们已经成功获取到<code>token</code>值了，截图如下：</p>
 <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d94a413104b54b4da7937bbe2cac39ee~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
 <p>很好，现在我们在拿着刚刚获取的<code>token</code>值再次请求<code>profile</code>接口，结果如图：</p>
@@ -631,44 +437,18 @@ async login(@Req() req) &#123;
 <p>发现请求成功，并且在<code>req</code>对象中还为我们将<code>token</code>的信息解析出来并挂载成一个<code>user</code>对象。</p>
 <h1 id="其他用法"><a href="#其他用法" class="headerlink" title="其他用法"></a>其他用法</h1><p>上面大概介绍了身份认证的一个过程，下面对身份认证的一些方法进行一个补充说明。</p>
 <h2 id="继承守卫"><a href="#继承守卫" class="headerlink" title="继承守卫"></a>继承守卫</h2><p>可以看到上面我们使用<code>@AuthGuard(&#39;jwt&#39;)</code>的方式进行守卫装饰器的使用，但是推荐使用继承的方式来使用，例如：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">export class JwtAuthGuard extends AuthGuard(&#39;jwt&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">JwtAuthGuard</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AuthGuard</span>(<span class="string">&#x27;jwt&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <p>上面通过<code>JwtAuthGuard</code>继承<code>@AuthGuard(&#39;jwt&#39;)</code>后，传入<code>jwt</code>的硬编码方式需要修改时也只会更改一次了，并且通过继承的方式我们还能对拦截方法进行一个扩展。</p>
 <h2 id="全局守卫"><a href="#全局守卫" class="headerlink" title="全局守卫"></a>全局守卫</h2><p>当我们需要验证的路由处于绝大部分时，我们可以通过使用依赖注入方式全局注册守卫。然后，通过对某些开放路由设置元数据，进行一个判断。例如：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">providers: [
-  &#123;
-    provide: APP_GUARD,
-    useClass: JwtAuthGuard,
-  &#125;,
-]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">providers</span>: [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">provide</span>: <span class="variable constant_">APP_GUARD</span>,</span><br><span class="line">    <span class="attr">useClass</span>: <span class="title class_">JwtAuthGuard</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <p>然后通过继承<code>AuthGuard</code>守卫来重写拦截逻辑，例如：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">@Injectable()
-export class JwtAuthGuard extends AuthGuard(&#39;jwt&#39;) &#123;
-  constructor(private reflector: Reflector) &#123;
-    super();
-  &#125;
-
-  canActivate(context: ExecutionContext) &#123;
-    const isPublic &#x3D; this.reflector.getAllAndOverride&lt;boolean&gt;(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    if (isPublic) &#123;
-      return true;
-    &#125;
-    return super.canActivate(context);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">JwtAuthGuard</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AuthGuard</span>(<span class="string">&#x27;jwt&#x27;</span>) &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> reflector: Reflector</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">canActivate</span>(<span class="params">context: ExecutionContext</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> isPublic = <span class="variable language_">this</span>.<span class="property">reflector</span>.<span class="property">getAllAndOverride</span>&lt;<span class="built_in">boolean</span>&gt;(<span class="variable constant_">IS_PUBLIC_KEY</span>, [</span><br><span class="line">      context.<span class="title function_">getHandler</span>(),</span><br><span class="line">      context.<span class="title function_">getClass</span>(),</span><br><span class="line">    ]);</span><br><span class="line">    <span class="keyword">if</span> (isPublic) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">super</span>.<span class="title function_">canActivate</span>(context);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="自定义策略参数"><a href="#自定义策略参数" class="headerlink" title="自定义策略参数"></a>自定义策略参数</h2><p>上面写的<code>LocalStrategy</code>策略，默认的规则是：必须接收<code>username</code>和<code>password</code>两个参数，可以视作为：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">constructor(private authService: AuthService) &#123;
-  super(&#123;
-    usernameField: &#39;username
-    passwordField: &#39;password&#39;,
-  &#125;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> authService: AuthService</span>) &#123;</span><br><span class="line">  <span class="variable language_">super</span>(&#123;</span><br><span class="line">    <span class="attr">usernameField</span>: <span class="string">&#x27;username</span></span><br><span class="line"><span class="string">    passwordField: &#x27;</span>password<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">  &#125;);</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>此时，我们通过<code>super</code>方法重新修改参数，即可达到修改策略的一个目的。</p>
 <h2 id="指定策略名称"><a href="#指定策略名称" class="headerlink" title="指定策略名称"></a>指定策略名称</h2><p>默认的，我们继承的策略都会有一个自动生成的名称，但是我们可以通过以案来自己定义：</p>
-<pre class="line-numbers language-ts" data-language="ts"><code class="language-ts">export class JwtStrategy extends PassportStrategy(Strategy, &#39;myjwt&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">JwtStrategy</span> <span class="keyword">extends</span> <span class="title class_ inherited__">PassportStrategy</span>(<span class="title class_">Strategy</span>, <span class="string">&#x27;myjwt&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
     </article>
     
@@ -707,7 +487,6 @@ export class JwtAuthGuard extends AuthGuard(&#39;jwt&#39;) &#123;
   </div>
 </div>
 
-<script src="http://cdn.yangxiang.cc/prism.js"></script>
 
 <script>
   // var定义，避免pjax重新进来造成的重复声明错误
@@ -797,10 +576,8 @@ export class JwtAuthGuard extends AuthGuard(&#39;jwt&#39;) &#123;
         const newDom = operateDom.cloneNode(true);
         const _backtopDom = newDom.querySelector('.backtop');
         const _commentDom = newDom.querySelector('.turn-comment');
-        console.log(_commentDom)
         _backtopDom.addEventListener('click', () => backTopEvent());
         _commentDom.addEventListener('click', () => commentDomEvent());
-
         cateloguDom.appendChild(newDom);
       } else {
         commentDom.classList.add('hidden')
@@ -867,7 +644,11 @@ export class JwtAuthGuard extends AuthGuard(&#39;jwt&#39;) &#123;
     const rootPath = "/"
 
     const checkAndSetArticlePageLayout = () => {
-      if (/^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(location.pathname.replace(rootPath, ''))) {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
         $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
       } else {
         $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
@@ -894,7 +675,6 @@ export class JwtAuthGuard extends AuthGuard(&#39;jwt&#39;) &#123;
         $('#container').slideToggle()
         setTimeout(() => {
           initScroll();
-          window.loadImageFn();
         }, 500)
       }, 500)
     }
@@ -920,8 +700,7 @@ export class JwtAuthGuard extends AuthGuard(&#39;jwt&#39;) &#123;
     $(document).on('pjax:popstate', function() {
       status = -1
       checkAndSetArticlePageLayout()
-      // $('.main-container').fadeIn()
-    })
+    });
   </script>
 </body>
 </html>
